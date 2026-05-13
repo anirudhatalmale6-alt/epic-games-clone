@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Epic Games Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg-primary:#121212;--bg-secondary:#1a1a1a;--bg-card:#202020;--bg-card-hover:#2a2a2a;
+--bg-elevated:#252525;--accent:#0074E4;--accent-hover:#0066cc;--accent-light:#1a8aff;
+--text-primary:#fff;--text-secondary:#a0a0a0;--text-muted:#666;
+--success:#2ecc40;--discount:#00d449;--free-tag:#0074E4;
+--border:#2a2a2a;--border-hover:#3a3a3a;
+--radius:8px;--radius-lg:14px;--radius-xl:20px;
+--shadow-card:0 2px 12px rgba(0,0,0,.4);--shadow-hover:0 8px 32px rgba(0,116,228,.15);
+--transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;line-height:1.5}
+h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:-.02em}
+a{text-decoration:none;color:inherit}
+button{border:none;cursor:pointer;font-family:inherit;background:none;color:inherit}
+img{display:block;max-width:100%}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg-primary)}
+::-webkit-scrollbar-thumb{background:#444;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#555}
+
+/* ─── TOP UTILITY BAR ─── */
+.top-bar{background:#0e0e0e;border-bottom:1px solid #1e1e1e;padding:0 40px;height:36px;display:flex;align-items:center;justify-content:space-between;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary)}
+.top-bar-left{display:flex;align-items:center;gap:24px}
+.top-bar-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:13px;color:#fff;letter-spacing:.08em}
+.top-bar-links{display:flex;gap:20px}
+.top-bar-links a{color:var(--text-secondary);transition:var(--transition)}
+.top-bar-links a:hover{color:#fff}
+.top-bar-right{display:flex;align-items:center;gap:16px}
+.top-bar-right a{color:var(--text-secondary);transition:var(--transition)}
+.top-bar-right a:hover{color:#fff}
+.lang-selector{display:flex;align-items:center;gap:4px;color:var(--text-secondary);font-size:11px;cursor:pointer}
+.lang-selector:hover{color:#fff}
+
+/* ─── MAIN NAV ─── */
+.main-nav{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav-left{display:flex;align-items:center;gap:32px}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo svg{width:32px;height:32px}
+.nav-logo-text{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;letter-spacing:.02em}
+.nav-links{display:flex;gap:6px}
+.nav-links a{padding:8px 16px;border-radius:var(--radius);font-size:14px;font-weight:500;color:var(--text-secondary);transition:var(--transition);position:relative}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,.06)}
+.nav-links a.active::after{content:'';position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--accent);border-radius:2px}
+.nav-right{display:flex;align-items:center;gap:12px}
+.search-box{position:relative;display:flex;align-items:center}
+.search-box input{width:200px;height:36px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:#fff;padding:0 16px 0 38px;font-size:13px;transition:var(--transition);outline:none}
+.search-box input:focus{width:280px;border-color:var(--accent);background:rgba(0,116,228,.06)}
+.search-box input::placeholder{color:var(--text-muted)}
+.search-box svg{position:absolute;left:12px;width:16px;height:16px;color:var(--text-muted);pointer-events:none}
+.nav-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition);position:relative}
+.nav-icon:hover{background:rgba(255,255,255,.08)}
+.nav-icon svg{width:20px;height:20px;color:var(--text-secondary)}
+.nav-icon .badge{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--accent);border-radius:50%;border:2px solid var(--bg-secondary)}
+.user-btn{height:36px;padding:0 18px;border-radius:20px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;transition:var(--transition);display:flex;align-items:center;gap:6px}
+.user-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:var(--transition)}
+
+/* ─── MOBILE NAV ─── */
+.mobile-nav{display:none;position:fixed;top:96px;left:0;right:0;bottom:0;background:var(--bg-primary);z-index:99;padding:24px;flex-direction:column;gap:8px;overflow-y:auto}
+.mobile-nav.open{display:flex}
+.mobile-nav a{padding:14px 16px;font-size:16px;font-weight:500;border-radius:var(--radius);color:var(--text-secondary);transition:var(--transition)}
+.mobile-nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+
+/* ─── HERO CAROUSEL ─── */
+.hero{position:relative;height:520px;overflow:hidden;margin:0 40px 40px;border-radius:var(--radius-xl);margin-top:24px}
+.hero-slides{display:flex;transition:transform .7s cubic-bezier(.4,0,.2,1);height:100%}
+.hero-slide{min-width:100%;height:100%;position:relative;overflow:hidden}
+.hero-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease}
+.hero-slide:hover .hero-slide-bg{transform:scale(1.04)}
+.hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.5) 40%,transparent 70%)}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:60px;z-index:2;display:flex;flex-direction:column;gap:16px;max-width:560px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;width:fit-content}
+.hero-title{font-family:'Outfit',sans-serif;font-size:42px;font-weight:900;line-height:1.1;letter-spacing:-.03em}
+.hero-desc{font-size:15px;color:var(--text-secondary);line-height:1.6;max-width:440px}
+.hero-actions{display:flex;gap:12px;margin-top:8px}
+.btn-primary{padding:12px 32px;border-radius:var(--radius);background:var(--accent);color:#fff;font-size:14px;font-weight:600;transition:var(--transition);display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,116,228,.35)}
+.btn-secondary{padding:12px 32px;border-radius:var(--radius);background:rgba(255,255,255,.1);color:#fff;font-size:14px;font-weight:600;transition:var(--transition);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(10px)}
+.btn-secondary:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
+.hero-dots{position:absolute;bottom:28px;right:60px;display:flex;gap:8px;z-index:3}
+.hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:var(--transition);border:none}
+.hero-dot.active{background:#fff;width:28px;border-radius:5px}
+.hero-arrows{position:absolute;top:50%;right:60px;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:3}
+.hero-arrow{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);backdrop-filter:blur(10px)}
+.hero-arrow:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3)}
+.hero-arrow svg{width:18px;height:18px;color:#fff}
+.hero-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);z-index:3;transition:width 5s linear}
+
+/* ─── SECTION STYLES ─── */
+.container{max-width:1400px;margin:0 auto;padding:0 40px}
+.section{padding:40px 0}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.section-title{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.section-title .icon{width:28px;height:28px;color:var(--accent)}
+.section-link{font-size:13px;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:4px;transition:var(--transition)}
+.section-link:hover{color:var(--accent-light);gap:8px}
+.section-link svg{width:14px;height:14px}
+
+/* ─── FREE GAMES ─── */
+.free-games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.free-card{border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:var(--transition);cursor:pointer;position:relative}
+.free-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.free-card-img{height:260px;position:relative;overflow:hidden}
+.free-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.free-card:hover .free-card-img img{transform:scale(1.05)}
+.free-tag{position:absolute;top:12px;left:12px;background:var(--free-tag);color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.free-card-info{padding:16px}
+.free-card-title{font-size:15px;font-weight:600;margin-bottom:4px}
+.free-card-price{display:flex;align-items:center;gap:8px}
+.free-card-price .original{color:var(--text-muted);text-decoration:line-through;font-size:13px}
+.free-card-price .current{color:var(--discount);font-weight:700;font-size:14px}
+.free-timer{display:flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:12px;margin-top:8px}
+.free-timer svg{width:14px;height:14px;color:var(--text-muted)}
+.countdown{display:flex;gap:4px}
+.countdown-unit{background:var(--bg-elevated);padding:2px 6px;border-radius:4px;font-weight:600;font-size:12px;min-width:28px;text-align:center}
+
+/* ─── CATEGORIES ─── */
+.categories-scroll{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;-ms-overflow-style:none;scrollbar-width:none}
+.categories-scroll::-webkit-scrollbar{display:none}
+.cat-pill{padding:8px 20px;border-radius:20px;font-size:13px;font-weight:500;background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);white-space:nowrap;cursor:pointer;transition:var(--transition)}
+.cat-pill:hover,.cat-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ─── GAME CARDS GRID ─── */
+.games-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.game-card{border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:var(--transition);cursor:pointer;position:relative}
+.game-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.game-card-img{height:200px;position:relative;overflow:hidden}
+.game-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.game-card:hover .game-card-img img{transform:scale(1.05)}
+.wishlist-btn{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;transition:var(--transition);border:none;cursor:pointer}
+.game-card:hover .wishlist-btn{opacity:1}
+.wishlist-btn:hover{background:rgba(255,255,255,.2);transform:scale(1.1)}
+.wishlist-btn svg{width:16px;height:16px;color:#fff}
+.discount-badge{position:absolute;bottom:10px;left:10px;background:var(--discount);color:#000;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:800}
+.game-card-info{padding:14px 16px}
+.game-card-platforms{display:flex;gap:6px;margin-bottom:6px}
+.game-card-platforms svg{width:14px;height:14px;color:var(--text-muted)}
+.game-card-title{font-size:14px;font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-card-pricing{display:flex;align-items:center;gap:8px}
+.game-card-pricing .original{color:var(--text-muted);text-decoration:line-through;font-size:12px}
+.game-card-pricing .price{font-size:14px;font-weight:600}
+
+/* ─── TOP SELLERS ─── */
+.top-seller-card{position:relative}
+.seller-rank{position:absolute;top:10px;left:10px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;z-index:2;border:1px solid rgba(255,255,255,.15)}
+
+/* ─── RECENTLY UPDATED ─── */
+.recent-scroll{display:flex;gap:16px;overflow-x:auto;padding:4px 0 16px;-ms-overflow-style:none;scrollbar-width:none}
+.recent-scroll::-webkit-scrollbar{display:none}
+.recent-card{min-width:200px;border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:var(--transition);cursor:pointer;flex-shrink:0}
+.recent-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.recent-card-img{height:120px;overflow:hidden}
+.recent-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.recent-card:hover .recent-card-img img{transform:scale(1.05)}
+.recent-card-info{padding:12px}
+.recent-card-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-card-update{font-size:11px;color:var(--text-muted);margin-top:4px}
+
+/* ─── GENRE GRID ─── */
+.genre-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.genre-card{height:160px;border-radius:var(--radius-lg);overflow:hidden;position:relative;cursor:pointer;transition:var(--transition)}
+.genre-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.genre-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s ease}
+.genre-card:hover .genre-card-bg{transform:scale(1.06)}
+.genre-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.85) 100%)}
+.genre-card-label{position:absolute;bottom:16px;left:16px;z-index:1;font-family:'Outfit',sans-serif;font-size:18px;font-weight:700}
+
+/* ─── FOOTER ─── */
+.footer{background:#0a0a0a;border-top:1px solid #1e1e1e;margin-top:60px;padding:60px 0 30px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid #1e1e1e}
+.footer-brand{display:flex;flex-direction:column;gap:16px}
+.footer-brand-logo{display:flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;font-weight:800;font-size:20px}
+.footer-brand-logo svg{width:36px;height:36px}
+.footer-brand p{font-size:13px;color:var(--text-muted);line-height:1.7;max-width:300px}
+.footer-social{display:flex;gap:10px;margin-top:8px}
+.footer-social a{width:36px;height:36px;border-radius:50%;background:var(--bg-card);display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.footer-social a:hover{background:var(--accent);transform:translateY(-2px)}
+.footer-social a svg{width:16px;height:16px;color:var(--text-secondary)}
+.footer-social a:hover svg{color:#fff}
+.footer-col h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;color:var(--text-secondary)}
+.footer-col a{display:block;font-size:13px;color:var(--text-muted);padding:4px 0;transition:var(--transition)}
+.footer-col a:hover{color:#fff}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;font-size:11px;color:var(--text-muted)}
+.footer-bottom-links{display:flex;gap:16px}
+.footer-bottom-links a{color:var(--text-muted);transition:var(--transition)}
+.footer-bottom-links a:hover{color:#fff}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+.games-grid,.genre-grid{grid-template-columns:repeat(3,1fr)}
+.footer-top{grid-template-columns:repeat(3,1fr)}
+.hero{height:420px;margin:16px 24px 32px}
+.hero-title{font-size:32px}
+.hero-content{padding:40px}
+.container{padding:0 24px}
+.top-bar{padding:0 24px}
+.main-nav{padding:0 24px}
+}
+@media(max-width:768px){
+.top-bar{display:none}
+.nav-links{display:none}
+.search-box{display:none}
+.hamburger{display:flex}
+.hero{height:360px;margin:12px 16px 24px;border-radius:var(--radius-lg)}
+.hero-title{font-size:26px}
+.hero-desc{font-size:13px}
+.hero-content{padding:24px}
+.hero-arrows{display:none}
+.hero-dots{right:auto;left:24px;bottom:20px}
+.hero-actions{flex-direction:column;gap:8px}
+.btn-primary,.btn-secondary{padding:10px 24px;font-size:13px;justify-content:center}
+.container{padding:0 16px}
+.main-nav{padding:0 16px;height:56px}
+.free-games-grid{grid-template-columns:1fr}
+.games-grid{grid-template-columns:repeat(2,1fr)}
+.genre-grid{grid-template-columns:repeat(2,1fr)}
+.section-title{font-size:18px}
+.footer-top{grid-template-columns:1fr 1fr}
+.footer-brand{grid-column:1/-1}
+.footer-bottom{flex-direction:column;gap:12px;text-align:center}
+}
+@media(max-width:480px){
+.games-grid{grid-template-columns:1fr}
+.genre-grid{grid-template-columns:1fr}
+.footer-top{grid-template-columns:1fr}
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.animate-in{animation:fadeInUp .6s ease forwards;opacity:0}
+.stagger-1{animation-delay:.1s}.stagger-2{animation-delay:.2s}.stagger-3{animation-delay:.3s}.stagger-4{animation-delay:.4s}
+</style>
+</head>
+<body>
+
+<!-- TOP UTILITY BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <span class="top-bar-logo">EPIC GAMES</span>
+    <div class="top-bar-links">
+      <a href="#">Store</a>
+      <a href="#">Distribution</a>
+      <a href="#">Support</a>
+      <a href="#">Unreal Engine</a>
+      <a href="#">Fortnite</a>
+      <a href="#">Fall Guys</a>
+    </div>
+  </div>
+  <div class="top-bar-right">
+    <span class="lang-selector">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      English
+    </span>
+    <a href="#">Sign In</a>
+  </div>
+</div>
+
+<!-- MAIN NAVIGATION -->
+<nav class="main-nav" id="mainNav">
+  <div class="nav-left">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 40 40" width="32" height="32"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0074E4"/><stop offset="100%" stop-color="#00a8ff"/></linearGradient></defs><rect width="40" height="40" rx="8" fill="url(#g1)"/><path d="M10 12h14v2h-14zM10 17h20v2h-20zM10 22h16v2h-16zM10 27h12v2h-12z" fill="#fff" opacity=".9"/></svg>
+      <span class="nav-logo-text">EPIC GAMES <span style="font-weight:400;opacity:.5;font-size:14px">STORE</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#" class="active">Discover</a>
+      <a href="#">Browse</a>
+      <a href="#">News</a>
+      <a href="#">Wishlist</a>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search store">
+    </div>
+    <button class="nav-icon" title="Wishlist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    </button>
+    <button class="nav-icon" title="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      <span class="badge"></span>
+    </button>
+    <button class="user-btn">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign In
+    </button>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#">Discover</a>
+  <a href="#">Browse</a>
+  <a href="#">News</a>
+  <a href="#">Wishlist</a>
+  <a href="#">Cart</a>
+  <a href="#">Sign In</a>
+</div>
+
+<!-- HERO CAROUSEL -->
+<section class="hero" id="heroCarousel">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide">
+      <div class="hero-slide-bg" style="background-image:url('https://picsum.photos/id/1036/1600/700')"></div>
+      <div class="hero-content">
+        <span class="hero-tag">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Now Available
+        </span>
+        <h1 class="hero-title">Crimson Wilds: Reborn</h1>
+        <p class="hero-desc">Embark on an epic open-world journey through untamed lands. Discover ancient mysteries and forge your legend in this action RPG masterpiece.</p>
+        <div class="hero-actions">
+          <button class="btn-primary">
+            Buy Now - $59.99
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-secondary">Add to Wishlist</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-slide-bg" style="background-image:url('https://picsum.photos/id/1025/1600/700')"></div>
+      <div class="hero-content">
+        <span class="hero-tag">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Pre-Order
+        </span>
+        <h1 class="hero-title">Phantom Protocol</h1>
+        <p class="hero-desc">Infiltrate fortified compounds in this tactical stealth shooter. Master gadgets, plan your approach, and execute with precision.</p>
+        <div class="hero-actions">
+          <button class="btn-primary">
+            Pre-Order - $49.99
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-secondary">Watch Trailer</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-slide-bg" style="background-image:url('https://picsum.photos/id/1062/1600/700')"></div>
+      <div class="hero-content">
+        <span class="hero-tag" style="background:var(--discount)">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Up to 75% Off
+        </span>
+        <h1 class="hero-title">Mega Sale Event</h1>
+        <p class="hero-desc">Thousands of games on sale. Save big on the hottest titles this season. Limited time only — don't miss out on incredible deals.</p>
+        <div class="hero-actions">
+          <button class="btn-primary">
+            Browse Deals
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-secondary">View All Sales</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-slide-bg" style="background-image:url('https://picsum.photos/id/1069/1600/700')"></div>
+      <div class="hero-content">
+        <span class="hero-tag">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Coming Soon
+        </span>
+        <h1 class="hero-title">Neon Abyss Zero</h1>
+        <p class="hero-desc">Dive into a cyberpunk roguelike with procedurally generated dungeons, synth-wave combat, and endless replayability.</p>
+        <div class="hero-actions">
+          <button class="btn-primary">
+            Wishlist Now
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-secondary">Learn More</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-arrows">
+    <button class="hero-arrow" id="heroPrev">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="hero-arrow" id="heroNext">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" data-index="0"></button>
+    <button class="hero-dot" data-index="1"></button>
+    <button class="hero-dot" data-index="2"></button>
+    <button class="hero-dot" data-index="3"></button>
+  </div>
+  <div class="hero-progress" id="heroProgress"></div>
+</section>
+
+<div class="container">
+
+  <!-- FREE GAMES -->
+  <section class="section" id="freeGames">
+    <div class="section-header">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg>
+        Free Games
+      </h2>
+      <a href="#" class="section-link">View More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </div>
+    <div class="free-games-grid">
+      <div class="free-card animate-in stagger-1">
+        <div class="free-card-img">
+          <img src="https://picsum.photos/id/96/500/350" alt="Shadow Realm">
+          <span class="free-tag">FREE NOW</span>
+        </div>
+        <div class="free-card-info">
+          <div class="free-card-title">Shadow Realm Online</div>
+          <div class="free-card-price">
+            <span class="original">$29.99</span>
+            <span class="current">Free</span>
+          </div>
+          <div class="free-timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Free until:
+            <div class="countdown" data-days="3" data-hours="14" data-mins="22">
+              <span class="countdown-unit" id="cd1d">3d</span>
+              <span class="countdown-unit" id="cd1h">14h</span>
+              <span class="countdown-unit" id="cd1m">22m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="free-card animate-in stagger-2">
+        <div class="free-card-img">
+          <img src="https://picsum.photos/id/225/500/350" alt="Starfall Legends">
+          <span class="free-tag">FREE NOW</span>
+        </div>
+        <div class="free-card-info">
+          <div class="free-card-title">Starfall Legends</div>
+          <div class="free-card-price">
+            <span class="original">$19.99</span>
+            <span class="current">Free</span>
+          </div>
+          <div class="free-timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Free until:
+            <div class="countdown">
+              <span class="countdown-unit">3d</span>
+              <span class="countdown-unit">14h</span>
+              <span class="countdown-unit">22m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="free-card animate-in stagger-3">
+        <div class="free-card-img">
+          <img src="https://picsum.photos/id/350/500/350" alt="Coming Next Week">
+          <span class="free-tag" style="background:#666">COMING SOON</span>
+        </div>
+        <div class="free-card-info">
+          <div class="free-card-title">Arcane Drifters</div>
+          <div class="free-card-price">
+            <span class="current" style="color:var(--text-secondary)">Free May 20</span>
+          </div>
+          <div class="free-timer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Mystery Game
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">Browse by Category</h2>
+    </div>
+    <div class="categories-scroll">
+      <button class="cat-pill active">All</button>
+      <button class="cat-pill">Action</button>
+      <button class="cat-pill">Adventure</button>
+      <button class="cat-pill">RPG</button>
+      <button class="cat-pill">Shooter</button>
+      <button class="cat-pill">Strategy</button>
+      <button class="cat-pill">Simulation</button>
+      <button class="cat-pill">Puzzle</button>
+      <button class="cat-pill">Racing</button>
+      <button class="cat-pill">Sports</button>
+      <button class="cat-pill">Horror</button>
+      <button class="cat-pill">Indie</button>
+      <button class="cat-pill">Open World</button>
+      <button class="cat-pill">Survival</button>
+      <button class="cat-pill">Fighting</button>
+      <button class="cat-pill">Platformer</button>
+    </div>
+  </section>
+
+  <!-- FEATURED GAMES -->
+  <section class="section" id="featuredGames">
+    <div class="section-header">
+      <h2 class="section-title">Featured Games</h2>
+      <a href="#" class="section-link">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </div>
+    <div class="games-grid" id="featuredGrid"></div>
+  </section>
+
+  <!-- TOP SELLERS -->
+  <section class="section" id="topSellers">
+    <div class="section-header">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Top Sellers
+      </h2>
+      <a href="#" class="section-link">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </div>
+    <div class="games-grid" id="topSellersGrid"></div>
+  </section>
+
+  <!-- RECENTLY UPDATED -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 105.64-12.36L1 10"/></svg>
+        Recently Updated
+      </h2>
+      <a href="#" class="section-link">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </div>
+    <div class="recent-scroll" id="recentScroll"></div>
+  </section>
+
+  <!-- BROWSE BY GENRE -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">Browse by Genre</h2>
+    </div>
+    <div class="genre-grid">
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1015/500/300')"></div><span class="genre-card-label">Action</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1040/500/300')"></div><span class="genre-card-label">Adventure</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1053/500/300')"></div><span class="genre-card-label">RPG</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1067/500/300')"></div><span class="genre-card-label">Shooter</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1073/500/300')"></div><span class="genre-card-label">Strategy</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1077/500/300')"></div><span class="genre-card-label">Simulation</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1080/500/300')"></div><span class="genre-card-label">Horror</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1082/500/300')"></div><span class="genre-card-label">Indie</span></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-logo">
+          <svg viewBox="0 0 40 40" width="36" height="36"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0074E4"/><stop offset="100%" stop-color="#00a8ff"/></linearGradient></defs><rect width="40" height="40" rx="8" fill="url(#g2)"/><path d="M10 12h14v2h-14zM10 17h20v2h-20zM10 22h16v2h-16zM10 27h12v2h-12z" fill="#fff" opacity=".9"/></svg>
+          EPIC GAMES
+        </div>
+        <p>Your home for the best games, free weekly titles, and exclusive deals. Join millions of players worldwide.</p>
+        <div class="footer-social">
+          <a href="#" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="#" title="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+          <a href="#" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0a0a0a"/></svg></a>
+          <a href="#" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg></a>
+          <a href="#" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.74 19.74 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.11 13.11 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.84 19.84 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.947 2.418-2.157 2.418z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Support-A-Creator</a>
+        <a href="#">Publish on Epic Games</a>
+        <a href="#">Careers</a>
+        <a href="#">Company</a>
+        <a href="#">Fan Art Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Made By Epic</h4>
+        <a href="#">Battle Breakers</a>
+        <a href="#">Fortnite</a>
+        <a href="#">Fall Guys</a>
+        <a href="#">Rocket League</a>
+        <a href="#">Unreal Tournament</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Store Refund Policy</a>
+        <a href="#">Content Guidelines</a>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <a href="#">Player Support</a>
+        <a href="#">Community Guidelines</a>
+        <a href="#">Community Rules</a>
+        <a href="#">FAQs</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Epic Games, Inc. All Rights Reserved. Epic, Epic Games, the Epic Games logo, and Fortnite are trademarks or registered trademarks of Epic Games.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Legal Info</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── GAME DATA ───
+const featuredGames = [
+  { title: "Eternal Frontier", price: "$59.99", discount: null, img: "https://picsum.photos/id/1003/500/350", platforms: ["win"] },
+  { title: "Voidborne Legacy", price: "$39.99", originalPrice: "$49.99", discount: "-20%", img: "https://picsum.photos/id/1011/500/350", platforms: ["win","mac"] },
+  { title: "Iron Circuit: Overdrive", price: "$29.99", discount: null, img: "https://picsum.photos/id/1018/500/350", platforms: ["win"] },
+  { title: "Celestial Rift", price: "$14.99", originalPrice: "$29.99", discount: "-50%", img: "https://picsum.photos/id/1020/500/350", platforms: ["win","mac"] },
+  { title: "Nexus Protocol", price: "$44.99", discount: null, img: "https://picsum.photos/id/1029/500/350", platforms: ["win"] },
+  { title: "Astral Siege", price: "$9.99", originalPrice: "$24.99", discount: "-60%", img: "https://picsum.photos/id/1031/500/350", platforms: ["win"] },
+  { title: "Wraithbound", price: "$34.99", discount: null, img: "https://picsum.photos/id/1033/500/350", platforms: ["win","mac"] },
+  { title: "Tidal Fury", price: "$19.99", originalPrice: "$49.99", discount: "-60%", img: "https://picsum.photos/id/1035/500/350", platforms: ["win"] }
+];
+
+const topSellerGames = [
+  { title: "Forged Dominion", price: "$59.99", img: "https://picsum.photos/id/1039/500/350", platforms: ["win","mac"] },
+  { title: "Drift Horizon", price: "$39.99", img: "https://picsum.photos/id/1042/500/350", platforms: ["win"] },
+  { title: "Prism Hunters", price: "$29.99", img: "https://picsum.photos/id/1044/500/350", platforms: ["win","mac"] },
+  { title: "Last Colony", price: "$49.99", img: "https://picsum.photos/id/1047/500/350", platforms: ["win"] },
+  { title: "Obsidian Dawn", price: "$24.99", img: "https://picsum.photos/id/1049/500/350", platforms: ["win"] },
+  { title: "Rift Walkers", price: "$34.99", img: "https://picsum.photos/id/1050/500/350", platforms: ["win","mac"] },
+  { title: "Quantum Break", price: "$19.99", img: "https://picsum.photos/id/1051/500/350", platforms: ["win"] },
+  { title: "Skyline Runners", price: "$14.99", img: "https://picsum.photos/id/1055/500/350", platforms: ["win","mac"] }
+];
+
+const recentGames = [
+  { title: "Crimson Wilds", update: "Update 3.2.1", img: "https://picsum.photos/id/1057/300/200" },
+  { title: "Phantom Protocol", update: "Season 4 Pass", img: "https://picsum.photos/id/1059/300/200" },
+  { title: "Eternal Frontier", update: "Patch Notes 2.0", img: "https://picsum.photos/id/1060/300/200" },
+  { title: "Voidborne Legacy", update: "DLC: Frozen Wastes", img: "https://picsum.photos/id/1061/300/200" },
+  { title: "Nexus Protocol", update: "Hotfix 1.4.2", img: "https://picsum.photos/id/1063/300/200" },
+  { title: "Astral Siege", update: "New Map Pack", img: "https://picsum.photos/id/1064/300/200" },
+  { title: "Wraithbound", update: "Co-op Mode Added", img: "https://picsum.photos/id/1065/300/200" },
+  { title: "Iron Circuit", update: "Vehicle Update", img: "https://picsum.photos/id/1066/300/200" },
+  { title: "Tidal Fury", update: "Balance Patch", img: "https://picsum.photos/id/1068/300/200" },
+  { title: "Drift Horizon", update: "New Tracks", img: "https://picsum.photos/id/1070/300/200" }
+];
+
+// ─── PLATFORM ICONS ───
+const platformIcons = {
+  win: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="color:var(--text-muted)"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>',
+  mac: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="color:var(--text-muted)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>'
+};
+
+// ─── RENDER GAME CARDS ───
+function renderGameCard(game, index, isTopSeller) {
+  const discountHTML = game.discount ? `<span class="discount-badge">${game.discount}</span>` : '';
+  const originalHTML = game.originalPrice ? `<span class="original">${game.originalPrice}</span>` : '';
+  const platformsHTML = game.platforms.map(p => platformIcons[p]).join('');
+  const rankHTML = isTopSeller ? `<span class="seller-rank">${index + 1}</span>` : '';
+  return `
+    <div class="game-card ${isTopSeller ? 'top-seller-card' : ''} animate-in stagger-${(index % 4) + 1}">
+      <div class="game-card-img">
+        <img src="${game.img}" alt="${game.title}" loading="lazy">
+        <button class="wishlist-btn" title="Add to Wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </button>
+        ${discountHTML}
+        ${rankHTML}
+      </div>
+      <div class="game-card-info">
+        <div class="game-card-platforms">${platformsHTML}</div>
+        <div class="game-card-title">${game.title}</div>
+        <div class="game-card-pricing">
+          ${originalHTML}
+          <span class="price">${game.price}</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderRecentCard(game) {
+  return `
+    <div class="recent-card">
+      <div class="recent-card-img"><img src="${game.img}" alt="${game.title}" loading="lazy"></div>
+      <div class="recent-card-info">
+        <div class="recent-card-title">${game.title}</div>
+        <div class="recent-card-update">${game.update}</div>
+      </div>
+    </div>`;
+}
+
+document.getElementById('featuredGrid').innerHTML = featuredGames.map((g, i) => renderGameCard(g, i, false)).join('');
+document.getElementById('topSellersGrid').innerHTML = topSellerGames.map((g, i) => renderGameCard(g, i, true)).join('');
+document.getElementById('recentScroll').innerHTML = recentGames.map(renderRecentCard).join('');
+
+// ─── HERO CAROUSEL ───
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+const slidesContainer = document.getElementById('heroSlides');
+const progress = document.getElementById('heroProgress');
+let autoplayTimer;
+
+function goToSlide(index) {
+  currentSlide = index;
+  slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+  resetProgress();
+}
+
+function nextSlide() {
+  goToSlide((currentSlide + 1) % slides.length);
+}
+
+function prevSlide() {
+  goToSlide((currentSlide - 1 + slides.length) % slides.length);
+}
+
+function resetProgress() {
+  progress.style.transition = 'none';
+  progress.style.width = '0%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      progress.style.transition = 'width 5s linear';
+      progress.style.width = '100%';
+    });
+  });
+  clearInterval(autoplayTimer);
+  autoplayTimer = setInterval(nextSlide, 5000);
+}
+
+document.getElementById('heroNext').addEventListener('click', nextSlide);
+document.getElementById('heroPrev').addEventListener('click', prevSlide);
+dots.forEach(dot => dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.index))));
+
+resetProgress();
+
+// ─── MOBILE HAMBURGER ───
+const hamburger = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+let menuOpen = false;
+
+hamburger.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileNav.classList.toggle('open', menuOpen);
+  const spans = hamburger.querySelectorAll('span');
+  if (menuOpen) {
+    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+  } else {
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  }
+});
+
+// ─── CATEGORY PILLS ───
+document.querySelectorAll('.cat-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+
+// ─── WISHLIST TOGGLE ───
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.wishlist-btn');
+  if (btn) {
+    const svg = btn.querySelector('svg path');
+    const filled = btn.dataset.filled === 'true';
+    if (filled) {
+      svg.setAttribute('fill', 'none');
+      btn.dataset.filled = 'false';
+    } else {
+      svg.setAttribute('fill', '#ff6b6b');
+      svg.setAttribute('stroke', '#ff6b6b');
+      btn.dataset.filled = 'true';
+    }
+    btn.style.transform = 'scale(1.3)';
+    setTimeout(() => btn.style.transform = '', 200);
+  }
+});
+
+// ─── SCROLL ANIMATIONS ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animationPlayState = 'running';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.animate-in').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+
+// ─── COUNTDOWN TIMER ───
+function updateCountdown() {
+  const target = new Date();
+  target.setDate(target.getDate() + 3);
+  target.setHours(target.getHours() + 14);
+  const now = new Date();
+  const diff = target - now;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  document.querySelectorAll('.countdown').forEach(cd => {
+    const units = cd.querySelectorAll('.countdown-unit');
+    if (units.length >= 3) {
+      units[0].textContent = d + 'd';
+      units[1].textContent = h + 'h';
+      units[2].textContent = m + 'm';
+    }
+  });
+}
+setInterval(updateCountdown, 60000);
+
+// ─── NAV SCROLL EFFECT ───
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  const scroll = window.scrollY;
+  if (scroll > 50) {
+    nav.style.background = 'rgba(26,26,26,.95)';
+    nav.style.borderBottomColor = 'rgba(42,42,42,.8)';
+  } else {
+    nav.style.background = 'var(--bg-secondary)';
+    nav.style.borderBottomColor = 'var(--border)';
+  }
+  lastScroll = scroll;
+});
+</script>
+</body>
+</html>
