@@ -191,40 +191,70 @@ img{display:block;max-width:100%}
 .footer-bottom-links a:hover{color:#fff}
 
 /* ═══ SIGN IN OVERLAY ═══ */
-.signin-overlay{position:fixed;inset:0;background:var(--bg-page);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column}
-.signin-overlay.open{display:flex}
-.signin-page{width:100%;max-width:400px;padding:40px 24px;text-align:center}
-.signin-back{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:6px;color:var(--text-gray);font-size:13px;font-weight:500;cursor:pointer;transition:color .2s}
+.signin-overlay{position:fixed;inset:0;background:#1a1a1e;z-index:200;display:none;overflow-y:auto}
+.signin-overlay.open{display:block}
+.signin-inner{max-width:440px;margin:0 auto;padding:40px 24px 60px;text-align:center}
+.signin-back{position:fixed;top:20px;left:20px;display:flex;align-items:center;gap:6px;color:var(--text-gray);font-size:13px;font-weight:500;cursor:pointer;transition:color .2s;z-index:201;background:none;border:none}
 .signin-back:hover{color:#fff}
 .signin-back svg{width:18px;height:18px}
-.signin-logo-wrap{margin-bottom:24px}
-.signin-logo-wrap .shield{width:48px;height:56px;margin:0 auto}
-.signin-heading{font-size:20px;font-weight:700;margin-bottom:28px}
-.signin-socials-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:24px}
-.social-icon-btn{width:48px;height:48px;border-radius:var(--radius);background:#26262a;border:1px solid #333;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
-.social-icon-btn:hover{background:#333;border-color:#444}
-.social-icon-btn svg{width:22px;height:22px}
-.signin-divider{display:flex;align-items:center;gap:12px;margin-bottom:24px;color:var(--text-dark);font-size:11px;text-transform:uppercase;letter-spacing:1px}
-.signin-divider::before,.signin-divider::after{content:'';flex:1;height:1px;background:#2a2a2e}
-.signin-form{text-align:left}
-.signin-field{margin-bottom:14px}
-.signin-field label{display:block;font-size:11px;font-weight:600;color:var(--text-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.signin-field input{width:100%;height:42px;border-radius:var(--radius);border:1px solid #333;background:#26262a;color:#fff;padding:0 12px;font-size:13px;outline:none;transition:border-color .2s}
-.signin-field input:focus{border-color:var(--blue)}
-.signin-field input::placeholder{color:var(--text-dark)}
-.signin-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.signin-remember{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-gray);cursor:pointer}
-.signin-remember input{accent-color:var(--blue);width:14px;height:14px}
-.signin-forgot{font-size:12px;color:var(--blue);transition:color .2s}
-.signin-forgot:hover{color:var(--blue-light)}
-.signin-submit{width:100%;height:42px;border-radius:var(--radius);background:var(--blue);color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;border:none}
-.signin-submit:hover{background:var(--blue-hover)}
+.signin-logo-wrap{margin-bottom:20px}
+.signin-logo-wrap .shield{width:56px;height:64px;margin:0 auto;display:block}
+.signin-heading{font-size:22px;font-weight:700;margin-bottom:28px}
+.signin-email-section{margin-bottom:20px;text-align:left}
+.signin-email-section input{width:100%;height:48px;border-radius:var(--radius);border:1px solid #444;background:#2a2a2e;color:#fff;padding:0 14px;font-size:14px;outline:none;transition:border-color .2s}
+.signin-email-section input:focus{border-color:var(--blue)}
+.signin-email-section input::placeholder{color:var(--text-dark)}
+.btn-cyan{width:100%;height:48px;border-radius:var(--radius);background:#00d4ff;color:#000;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;border:none;margin-top:14px}
+.btn-cyan:hover{background:#00bfe6}
+.signin-create{margin-top:16px;font-size:14px;color:var(--text-gray)}
+.signin-create a{color:var(--blue);text-decoration:underline}
+.signin-hr{border:none;border-top:1px solid #333;margin:28px 0}
+.console-section{text-align:center;margin-bottom:28px}
+.console-section h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.console-section p{font-size:13px;color:var(--text-gray);margin-bottom:16px}
+.console-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.console-card{background:#2a2a2e;border:1px solid #333;border-radius:var(--radius-lg);padding:20px 10px;text-align:center;cursor:pointer;transition:all .2s}
+.console-card:hover{background:#333;border-color:#444}
+.console-card svg,.console-card .c-icon{width:40px;height:40px;margin:0 auto 8px;display:block}
+.console-card span{font-size:12px;color:var(--text-gray);display:block;line-height:1.3}
+.other-section{text-align:center}
+.other-section h3{font-size:16px;font-weight:700;margin-bottom:16px}
+.other-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.other-card{background:#2a2a2e;border:1px solid #333;border-radius:var(--radius-lg);padding:20px 10px;text-align:center;cursor:pointer;transition:all .2s}
+.other-card:hover{background:#333;border-color:#444}
+.other-card svg{width:32px;height:32px;margin:0 auto 8px;display:block}
+.other-card span{font-size:12px;color:var(--text-gray);display:block}
 .signin-error{background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.2);border-radius:var(--radius);padding:10px;font-size:12px;color:#ff6b6b;text-align:center;margin-top:12px;display:none}
 .signin-error.show{display:block}
-.signin-footer{margin-top:24px;padding-top:24px;border-top:1px solid #2a2a2e;font-size:13px;color:var(--text-dark);text-align:center}
-.signin-footer a{color:var(--blue);font-weight:500}
-.signin-terms{margin-top:16px;font-size:10px;color:var(--text-dark);line-height:1.5;text-align:center}
-.signin-terms a{color:var(--text-gray)}
+
+/* ═══ FOOTER ACCORDION (mobile) ═══ */
+.footer-accordion{display:none}
+.accordion-item{border-top:1px solid #222}
+.accordion-header{display:flex;align-items:center;justify-content:space-between;padding:16px 0;cursor:pointer;font-size:16px;font-weight:700;color:#fff}
+.accordion-header svg{width:20px;height:20px;color:var(--text-gray);transition:transform .2s}
+.accordion-header.open svg{transform:rotate(180deg)}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.accordion-body.open{max-height:300px}
+.accordion-body a{display:block;padding:6px 0;font-size:13px;color:var(--text-dark)}
+.accordion-body a:hover{color:#fff}
+.footer-store-label{text-align:center;font-size:18px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:24px 0 16px}
+.footer-social-center{display:flex;justify-content:center;gap:16px;padding-bottom:24px}
+.footer-social-center a{color:var(--text-dark);transition:color .2s}
+.footer-social-center a:hover{color:#fff}
+.footer-social-center a svg{width:20px;height:20px}
+.footer-legal-text{font-size:11px;color:var(--text-dark);line-height:1.7;text-align:center;padding:20px 0;border-top:1px solid #222}
+.footer-legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:12px 0}
+.footer-legal-links a{font-size:12px;color:var(--text-gray);transition:color .2s}
+.footer-legal-links a:hover{color:#fff}
+.footer-back-top{text-align:center;padding:20px 0}
+.footer-back-top button{background:#333;border:1px solid #444;color:#fff;padding:10px 24px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.footer-back-top button:hover{background:#444}
+.footer-back-top button svg{width:16px;height:16px}
+
+@media(max-width:768px){
+.footer-grid{display:none}
+.footer-accordion{display:block}
+}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:1100px){
@@ -531,57 +561,74 @@ img{display:block;max-width:100%}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Back
   </button>
-  <div class="signin-page">
+  <div class="signin-inner">
     <div class="signin-logo-wrap">
-      <svg class="shield" viewBox="0 0 30 36" fill="none" style="display:block;margin:0 auto">
+      <svg class="shield" viewBox="0 0 30 36" fill="none">
         <path d="M15 0L0 6v12c0 9.94 6.4 19.24 15 21.6 8.6-2.36 15-11.66 15-21.6V6L15 0z" fill="#fff"/>
-        <path d="M15 2L2 7.2v10.8c0 8.8 5.6 17 13 19.1 7.4-2.1 13-10.3 13-19.1V7.2L15 2z" fill="#121212"/>
-        <text x="15" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="11" fill="#fff">E</text>
+        <path d="M15 2L2 7.2v10.8c0 8.8 5.6 17 13 19.1 7.4-2.1 13-10.3 13-19.1V7.2L15 2z" fill="#1a1a1e"/>
+        <text x="8" y="19" font-family="Inter,sans-serif" font-weight="900" font-size="7" fill="#fff">EPIC</text>
+        <text x="6" y="26" font-family="Inter,sans-serif" font-weight="900" font-size="6" fill="#fff">GAMES</text>
       </svg>
     </div>
-    <h2 class="signin-heading">Sign In</h2>
-    <div class="signin-socials-row">
-      <button class="social-icon-btn" title="Apple" onclick="showError()">
-        <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-      </button>
-      <button class="social-icon-btn" title="Facebook" onclick="showError()">
-        <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </button>
-      <button class="social-icon-btn" title="Google" onclick="showError()">
-        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      </button>
-      <button class="social-icon-btn" title="Xbox" onclick="showError()">
-        <svg viewBox="0 0 24 24" fill="#107C10"><path d="M11.4 24H1V13.6h10.4V24zM24 24H13.6V13.6H24V24zM11.4 10.4H1V0h10.4v10.4zM24 10.4H13.6V0H24v10.4z"/></svg>
-      </button>
-      <button class="social-icon-btn" title="PlayStation" onclick="showError()">
-        <svg viewBox="0 0 24 24" fill="#006FCD"><path d="M8.985 2.596v17.548l3.915 1.261V6.688c0-.69.304-1.151.794-.886-.975-1.843-2.067-2.63-3.322-3.015C9.768 2.603 8.985 2.596 8.985 2.596zm-4.97 5.732C.96 12.197 1.693 17.89 4.727 21.35c.375.425.758.817 1.235.906.323.061.688-.054.688-.054l4.485-1.561s-4.97-3.25-7.12-12.313zm15.57.276s-3.09 1.755-6.705 5.633c0 0 2.67 3.17 5.7 5.163 2.756-3.4 3.376-8.606 1.005-10.796z"/></svg>
-      </button>
-      <button class="social-icon-btn" title="Nintendo" onclick="showError()">
-        <svg viewBox="0 0 24 24" fill="#E60012"><rect x="1" y="4" width="9" height="16" rx="4.5" fill="#E60012"/><rect x="14" y="4" width="9" height="16" rx="4.5" fill="#E60012"/><circle cx="5.5" cy="10" r="1.5" fill="#fff"/><rect x="10" y="4" width="4" height="16" fill="#E60012"/></svg>
-      </button>
-      <button class="social-icon-btn" title="Steam" onclick="showError()">
-        <svg viewBox="0 0 24 24" fill="#fff"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.032 0 .064.001.096.002l2.866-4.146V8.93c0-2.615 2.132-4.743 4.749-4.743 2.615 0 4.745 2.128 4.745 4.743 0 2.615-2.13 4.745-4.745 4.745h-.11l-4.08 2.912c0 .042.002.084.002.126 0 1.961-1.596 3.556-3.558 3.556-1.719 0-3.156-1.222-3.49-2.845L.238 14.37c1.402 5.505 6.385 9.577 12.337 9.577 7.015 0 12.702-5.683 12.702-12.693 0-7.01-5.687-12.693-12.702-12.693z"/></svg>
-      </button>
+    <h2 class="signin-heading">Sign in to Epic Games</h2>
+
+    <div class="signin-email-section">
+      <input type="email" placeholder="Email address" id="signinEmail">
     </div>
-    <div class="signin-divider">or</div>
-    <form class="signin-form" onsubmit="event.preventDefault();showError()">
-      <div class="signin-field">
-        <label>Email Address</label>
-        <input type="email" placeholder="your@email.com">
+    <button class="btn-cyan" onclick="showError()">Continue</button>
+    <p class="signin-create">New here? <a href="#">Create an account</a></p>
+
+    <hr class="signin-hr">
+
+    <div class="console-section">
+      <h3>Only played on console?</h3>
+      <p>Sign in to access your progress and purchases</p>
+      <div class="console-grid">
+        <div class="console-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" fill="#006FCD" class="c-icon"><circle cx="12" cy="12" r="11" fill="#006FCD"/><path d="M8.985 5.596v12.548l2.915.961V8.688c0-.49.204-.851.594-.686-.675-1.343-1.467-1.93-2.322-2.215-.204-.06-.687-.067-1.187-.191zm-3.47 4.232C3.46 12.697 3.993 16.39 5.727 18.85c.275.325.558.617.935.706.223.041.488-.054.488-.054l3.485-1.061s-3.47-2.25-5.12-8.613zm11.57.176s-2.09 1.255-4.705 3.933c0 0 1.87 2.17 3.9 3.563 1.956-2.4 2.376-6.106.805-7.496z" fill="#fff"/></svg>
+          <span>PlayStation&#8482;<br>Network</span>
+        </div>
+        <div class="console-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" class="c-icon"><circle cx="12" cy="12" r="11" fill="#107C10"/><path d="M7.4 16H5V8h2.4v8zM12.2 16H9.8V8h2.4v8zM17 16h-2.4V8H17v8zM19 16h-0.6V8H19v8z" fill="#fff"/></svg>
+          <span>Xbox<br>network</span>
+        </div>
+        <div class="console-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" class="c-icon"><circle cx="12" cy="12" r="11" fill="#E60012"/><rect x="6" y="7" width="5" height="10" rx="2.5" fill="#fff"/><rect x="13" y="7" width="5" height="10" rx="2.5" fill="#fff"/><circle cx="8.5" cy="10.5" r="1" fill="#E60012"/></svg>
+          <span>Nintendo<br>Account</span>
+        </div>
       </div>
-      <div class="signin-field">
-        <label>Password</label>
-        <input type="password" placeholder="Password">
+    </div>
+
+    <div class="other-section">
+      <h3>Other ways to sign in</h3>
+      <div class="other-grid">
+        <div class="other-card" onclick="showError()">
+          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          <span>Google</span>
+        </div>
+        <div class="other-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.032 0 .064.001.096.002l2.866-4.146V8.93c0-2.615 2.132-4.743 4.749-4.743 2.615 0 4.745 2.128 4.745 4.743 0 2.615-2.13 4.745-4.745 4.745h-.11l-4.08 2.912c0 .042.002.084.002.126 0 1.961-1.596 3.556-3.558 3.556-1.719 0-3.156-1.222-3.49-2.845L.238 14.37c1.402 5.505 6.385 9.577 12.337 9.577 7.015 0 12.702-5.683 12.702-12.693 0-7.01-5.687-12.693-12.702-12.693z"/></svg>
+          <span>Steam</span>
+        </div>
+        <div class="other-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <span>Facebook</span>
+        </div>
+        <div class="other-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          <span>Apple</span>
+        </div>
+        <div class="other-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" fill="#E60012"><rect x="1" y="4" width="9" height="16" rx="4.5"/><rect x="14" y="4" width="9" height="16" rx="4.5"/><circle cx="5.5" cy="10" r="1.5" fill="#fff"/><rect x="10" y="4" width="4" height="16" fill="#E60012"/></svg>
+          <span>Nintendo</span>
+        </div>
+        <div class="other-card" onclick="showError()">
+          <svg viewBox="0 0 24 24" fill="#9147FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+          <span>Twitch</span>
+        </div>
       </div>
-      <div class="signin-row">
-        <label class="signin-remember"><input type="checkbox"> Remember me</label>
-        <a href="#" class="signin-forgot">Forgot your password?</a>
-      </div>
-      <button type="submit" class="signin-submit">Log In Now</button>
-      <div class="signin-error" id="signinError">Sorry, the credentials you are using are invalid. Check your email and password.</div>
-    </form>
-    <div class="signin-footer">Don't have an Epic Games account? <a href="#">Sign Up</a></div>
-    <p class="signin-terms">By signing in you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+    </div>
+    <div class="signin-error" id="signinError">Sorry, the credentials you are using are invalid. Please try again.</div>
   </div>
 </div>
 
@@ -633,11 +680,61 @@ img{display:block;max-width:100%}
         <a href="#">FAQs</a>
       </div>
     </div>
+    <!-- Mobile accordion footer -->
+    <div class="footer-accordion">
+      <div class="footer-store-label">Store</div>
+      <div class="footer-social-center">
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48" fill="#0a0a0a"/></svg></a>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Games <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="accordion-body"><a href="#">Fortnite</a><a href="#">Fall Guys</a><a href="#">Rocket League</a><a href="#">Unreal Tournament</a></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Marketplaces <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="accordion-body"><a href="#">Epic Games Store</a><a href="#">Fab</a><a href="#">itch.io</a><a href="#">ArtStation</a></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Tools <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="accordion-body"><a href="#">Unreal Engine</a><a href="#">MetaHuman</a><a href="#">Twinmotion</a><a href="#">RealityScan</a></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Online Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="accordion-body"><a href="#">Epic Online Services</a><a href="#">Kids Web Services</a><a href="#">Developer Portal</a></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Company <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="accordion-body"><a href="#">About</a><a href="#">Newsroom</a><a href="#">Careers</a><a href="#">Students</a></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Resources <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="accordion-body"><a href="#">Support-A-Creator</a><a href="#">Publish on Epic</a><a href="#">Fan Art Policy</a><a href="#">Community Rules</a><a href="#">FAQs</a></div>
+      </div>
+      <div class="footer-legal-text">
+        &copy; 2026 Epic Games, Inc. All rights reserved. Epic, Epic Games, the Epic Games logo, Fortnite, the Fortnite logo, Unreal, Unreal Engine, the Unreal Engine logo, Unreal Tournament, and the Unreal Tournament logo are trademarks or registered trademarks of Epic Games, Inc. in the United States of America and elsewhere. Other brands or product names are the trademarks of their respective owners. Our websites may contain links to other sites and resources provided by third parties. These links are provided for your convenience only. Epic Games has no control over the contents of those sites or resources, and accepts no responsibility for them or for any loss or damage that may arise from your use of them.
+      </div>
+      <div class="footer-legal-links">
+        <a href="#">Terms of service</a>
+        <a href="#">Privacy policy</a>
+        <a href="#">Safety & security</a>
+        <a href="#">Store refund policy</a>
+        <a href="#">Publisher Index</a>
+        <a href="#">Cookies Settings</a>
+      </div>
+      <div class="footer-back-top">
+        <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>
+      </div>
+    </div>
+
     <div class="footer-bottom">
-      <span>&copy; 2025 Epic Games, Inc. All Rights Reserved.</span>
+      <span>&copy; 2026 Epic Games, Inc. All Rights Reserved. Epic, Epic Games, the Epic Games logo, Fortnite, the Fortnite logo, Unreal, Unreal Engine are trademarks or registered trademarks of Epic Games, Inc.</span>
       <div class="footer-bottom-links">
         <a href="#">Terms of Service</a>
         <a href="#">Privacy Policy</a>
+        <a href="#">Safety & Security</a>
+        <a href="#">Store Refund Policy</a>
       </div>
     </div>
   </div>
@@ -731,6 +828,15 @@ document.getElementById('navSignin').onclick=openSign;
 document.getElementById('mobileSignin').onclick=()=>{openSign();mo=false;hb.classList.remove('open');mm.classList.remove('open')};
 document.getElementById('signinBack').onclick=closeSign;
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSign()});
+
+// Footer accordion
+function toggleAccordion(el){
+  const body=el.nextElementSibling;
+  const isOpen=body.classList.contains('open');
+  document.querySelectorAll('.accordion-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.accordion-header').forEach(h=>h.classList.remove('open'));
+  if(!isOpen){body.classList.add('open');el.classList.add('open')}
+}
 
 // Nav scroll effect
 window.addEventListener('scroll',()=>{const n=document.querySelector('.mainnav');n.style.background=window.scrollY>40?'rgba(24,24,28,.95)':'var(--bg-nav)'});
