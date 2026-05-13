@@ -5,443 +5,395 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Epic Games Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg-primary:#121212;--bg-secondary:#1a1a1a;--bg-card:#202020;--bg-card-hover:#2a2a2a;
---bg-elevated:#252525;--accent:#0074E4;--accent-hover:#0066cc;--accent-light:#1a8aff;
---text-primary:#fff;--text-secondary:#a0a0a0;--text-muted:#666;
---success:#2ecc40;--discount:#00d449;--free-tag:#0074E4;
---border:#2a2a2a;--border-hover:#3a3a3a;
---radius:8px;--radius-lg:14px;--radius-xl:20px;
---shadow-card:0 2px 12px rgba(0,0,0,.4);--shadow-hover:0 8px 32px rgba(0,116,228,.15);
---transition:all .25s cubic-bezier(.4,0,.2,1);
+--bg-page:#121212;--bg-nav:#18181c;--bg-card:#202024;--bg-card-hover:#2a2a2e;
+--bg-input:#202024;--bg-overlay:rgba(0,0,0,.75);
+--blue:#0074e4;--blue-hover:#005bb5;--blue-light:#26bbff;
+--green:#26bbff;--discount-green:#00e36b;--free-blue:#0074e4;
+--text-white:#f5f5f5;--text-gray:#999;--text-dark:#666;
+--border:#2a2a2e;--border-light:#333;
+--radius-sm:4px;--radius:8px;--radius-lg:12px;--radius-xl:16px;
+--font:'Inter',system-ui,-apple-system,sans-serif;
 }
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;line-height:1.5}
-h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:-.02em}
-a{text-decoration:none;color:inherit}
-button{border:none;cursor:pointer;font-family:inherit;background:none;color:inherit}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font);background:var(--bg-page);color:var(--text-white);overflow-x:hidden;line-height:1.5;font-size:14px}
+a{text-decoration:none;color:inherit;cursor:pointer}
+button{border:none;cursor:pointer;font-family:var(--font);background:none;color:inherit}
 img{display:block;max-width:100%}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:var(--bg-primary)}
+::-webkit-scrollbar{width:6px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#444;border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:#555}
 
-/* ─── TOP UTILITY BAR ─── */
-.top-bar{background:#0e0e0e;border-bottom:1px solid #1e1e1e;padding:0 40px;height:36px;display:flex;align-items:center;justify-content:space-between;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary)}
-.top-bar-left{display:flex;align-items:center;gap:24px}
-.top-bar-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:13px;color:#fff;letter-spacing:.08em}
-.top-bar-links{display:flex;gap:20px}
-.top-bar-links a{color:var(--text-secondary);transition:var(--transition)}
-.top-bar-links a:hover{color:#fff}
-.top-bar-right{display:flex;align-items:center;gap:16px}
-.top-bar-right a{color:var(--text-secondary);transition:var(--transition)}
-.top-bar-right a:hover{color:#fff}
-.lang-selector{display:flex;align-items:center;gap:4px;color:var(--text-secondary);font-size:11px;cursor:pointer}
-.lang-selector:hover{color:#fff}
+/* ═══ TOP BAR ═══ */
+.topbar{background:#101014;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid #222}
+.topbar-left{display:flex;align-items:center;gap:28px}
+.topbar-brand{font-weight:800;font-size:15px;letter-spacing:1.5px;color:#fff;text-transform:uppercase}
+.topbar-links{display:flex;align-items:center;gap:20px}
+.topbar-links a{font-size:11px;font-weight:500;color:var(--text-gray);letter-spacing:.5px;text-transform:uppercase;transition:color .2s}
+.topbar-links a:hover{color:#fff}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-right .globe-btn{display:flex;align-items:center;gap:4px;color:var(--text-gray);font-size:11px;cursor:pointer;transition:color .2s}
+.topbar-right .globe-btn:hover{color:#fff}
+.topbar-right .signin-link{font-size:11px;font-weight:600;color:var(--text-gray);text-transform:uppercase;letter-spacing:.5px;padding:6px 14px;border-radius:var(--radius-sm);transition:all .2s;cursor:pointer}
+.topbar-right .signin-link:hover{color:#fff;background:rgba(255,255,255,.08)}
 
-/* ─── MAIN NAV ─── */
-.main-nav{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.nav-left{display:flex;align-items:center;gap:32px}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-logo svg{width:32px;height:32px}
-.nav-logo-text{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;letter-spacing:.02em}
-.nav-links{display:flex;gap:6px}
-.nav-links a{padding:8px 16px;border-radius:var(--radius);font-size:14px;font-weight:500;color:var(--text-secondary);transition:var(--transition);position:relative}
-.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,.06)}
-.nav-links a.active::after{content:'';position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--accent);border-radius:2px}
-.nav-right{display:flex;align-items:center;gap:12px}
-.search-box{position:relative;display:flex;align-items:center}
-.search-box input{width:200px;height:36px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:#fff;padding:0 16px 0 38px;font-size:13px;transition:var(--transition);outline:none}
-.search-box input:focus{width:280px;border-color:var(--accent);background:rgba(0,116,228,.06)}
-.search-box input::placeholder{color:var(--text-muted)}
-.search-box svg{position:absolute;left:12px;width:16px;height:16px;color:var(--text-muted);pointer-events:none}
-.nav-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition);position:relative}
-.nav-icon:hover{background:rgba(255,255,255,.08)}
-.nav-icon svg{width:20px;height:20px;color:var(--text-secondary)}
-.nav-icon .badge{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--accent);border-radius:50%;border:2px solid var(--bg-secondary)}
-.user-btn{height:36px;padding:0 18px;border-radius:20px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;transition:var(--transition);display:flex;align-items:center;gap:6px}
-.user-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
-.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer}
-.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:var(--transition)}
+/* ═══ MAIN NAV ═══ */
+.mainnav{background:var(--bg-nav);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;border-bottom:1px solid #222}
+.nav-left{display:flex;align-items:center;gap:28px}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo .shield{width:28px;height:32px}
+.nav-logo .store-text{font-size:16px;font-weight:700;letter-spacing:1px;color:#fff;text-transform:uppercase}
+.nav-menu{display:flex;align-items:center;gap:4px}
+.nav-menu a{padding:8px 14px;font-size:13px;font-weight:500;color:var(--text-gray);border-radius:var(--radius);transition:all .2s;position:relative}
+.nav-menu a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-menu a.active{color:#fff}
+.nav-menu a.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:16px;height:2px;background:var(--blue);border-radius:1px}
+.nav-right{display:flex;align-items:center;gap:4px}
+.nav-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s;position:relative}
+.nav-btn:hover{background:rgba(255,255,255,.08)}
+.nav-btn svg{width:20px;height:20px;color:var(--text-gray)}
+.nav-btn .dot{position:absolute;top:8px;right:8px;width:6px;height:6px;background:var(--blue);border-radius:50%}
+.hamburger{display:none;width:40px;height:40px;align-items:center;justify-content:center;cursor:pointer;border-radius:50%;transition:background .2s}
+.hamburger:hover{background:rgba(255,255,255,.08)}
+.hamburger span{display:block;width:18px;height:2px;background:#fff;border-radius:1px;transition:all .2s;position:relative}
+.hamburger span::before,.hamburger span::after{content:'';position:absolute;left:0;width:18px;height:2px;background:#fff;border-radius:1px;transition:all .2s}
+.hamburger span::before{top:-6px}
+.hamburger span::after{top:6px}
+.hamburger.open span{background:transparent}
+.hamburger.open span::before{top:0;transform:rotate(45deg)}
+.hamburger.open span::after{top:0;transform:rotate(-45deg)}
 
-/* ─── MOBILE NAV ─── */
-.mobile-nav{display:none;position:fixed;top:96px;left:0;right:0;bottom:0;background:var(--bg-primary);z-index:99;padding:24px;flex-direction:column;gap:8px;overflow-y:auto}
-.mobile-nav.open{display:flex}
-.mobile-nav a{padding:14px 16px;font-size:16px;font-weight:500;border-radius:var(--radius);color:var(--text-secondary);transition:var(--transition)}
-.mobile-nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+/* ═══ MOBILE MENU ═══ */
+.mobile-menu{display:none;position:fixed;top:106px;left:0;right:0;bottom:0;background:var(--bg-page);z-index:99;padding:16px;flex-direction:column;gap:4px;overflow-y:auto}
+.mobile-menu.open{display:flex}
+.mobile-menu a{padding:14px 16px;font-size:15px;font-weight:500;border-radius:var(--radius);color:var(--text-gray)}
+.mobile-menu a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.mobile-menu .mobile-signin{margin-top:16px;padding:12px;border-radius:var(--radius);background:var(--blue);color:#fff;font-weight:600;font-size:14px;text-align:center}
 
-/* ─── HERO CAROUSEL ─── */
-.hero{position:relative;height:520px;overflow:hidden;margin:0 40px 40px;border-radius:var(--radius-xl);margin-top:24px}
-.hero-slides{display:flex;transition:transform .7s cubic-bezier(.4,0,.2,1);height:100%}
-.hero-slide{min-width:100%;height:100%;position:relative;overflow:hidden}
-.hero-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease}
-.hero-slide:hover .hero-slide-bg{transform:scale(1.04)}
-.hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.5) 40%,transparent 70%)}
-.hero-content{position:absolute;bottom:0;left:0;right:0;padding:60px;z-index:2;display:flex;flex-direction:column;gap:16px;max-width:560px}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;width:fit-content}
-.hero-title{font-family:'Outfit',sans-serif;font-size:42px;font-weight:900;line-height:1.1;letter-spacing:-.03em}
-.hero-desc{font-size:15px;color:var(--text-secondary);line-height:1.6;max-width:440px}
-.hero-actions{display:flex;gap:12px;margin-top:8px}
-.btn-primary{padding:12px 32px;border-radius:var(--radius);background:var(--accent);color:#fff;font-size:14px;font-weight:600;transition:var(--transition);display:inline-flex;align-items:center;gap:8px}
-.btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,116,228,.35)}
-.btn-secondary{padding:12px 32px;border-radius:var(--radius);background:rgba(255,255,255,.1);color:#fff;font-size:14px;font-weight:600;transition:var(--transition);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(10px)}
-.btn-secondary:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
-.hero-dots{position:absolute;bottom:28px;right:60px;display:flex;gap:8px;z-index:3}
-.hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:var(--transition);border:none}
-.hero-dot.active{background:#fff;width:28px;border-radius:5px}
-.hero-arrows{position:absolute;top:50%;right:60px;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:3}
-.hero-arrow{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);backdrop-filter:blur(10px)}
-.hero-arrow:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3)}
-.hero-arrow svg{width:18px;height:18px;color:#fff}
-.hero-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);z-index:3;transition:width 5s linear}
+/* ═══ CONTAINER ═══ */
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
 
-/* ─── SECTION STYLES ─── */
-.container{max-width:1400px;margin:0 auto;padding:0 40px}
-.section{padding:40px 0}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.section-title{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
-.section-title .icon{width:28px;height:28px;color:var(--accent)}
-.section-link{font-size:13px;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:4px;transition:var(--transition)}
-.section-link:hover{color:var(--accent-light);gap:8px}
-.section-link svg{width:14px;height:14px}
+/* ═══ HERO ═══ */
+.hero{position:relative;margin:20px 24px 0;border-radius:var(--radius-xl);overflow:hidden;height:480px}
+.hero-slides{display:flex;height:100%;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.hero-slide{min-width:100%;height:100%;position:relative}
+.hero-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center top}
+.hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.45) 40%,transparent 65%)}
+.hero-content{position:absolute;bottom:60px;left:48px;z-index:2;max-width:480px}
+.hero-badge{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-gray);margin-bottom:12px}
+.hero-title{font-size:36px;font-weight:800;line-height:1.1;margin-bottom:12px;letter-spacing:-.5px}
+.hero-desc{font-size:14px;color:var(--text-gray);line-height:1.6;margin-bottom:20px}
+.hero-btns{display:flex;gap:10px}
+.btn-blue{padding:10px 28px;border-radius:var(--radius);background:var(--blue);color:#fff;font-size:13px;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-blue:hover{background:var(--blue-hover)}
+.btn-ghost{padding:10px 28px;border-radius:var(--radius);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-weight:600;transition:all .2s;border:1px solid rgba(255,255,255,.2)}
+.btn-ghost:hover{background:rgba(255,255,255,.18)}
+.hero-nav{position:absolute;bottom:24px;right:48px;display:flex;gap:6px;z-index:3}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s;border:none}
+.hero-dot.active{background:#fff;width:24px;border-radius:4px}
+.hero-arrows{position:absolute;top:50%;right:48px;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;z-index:3}
+.hero-arrow{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.hero-arrow:hover{background:rgba(255,255,255,.15)}
+.hero-arrow svg{width:16px;height:16px;color:#fff}
+.hero-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--blue);z-index:3;border-radius:0 2px 2px 0}
 
-/* ─── FREE GAMES ─── */
-.free-games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.free-card{border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:var(--transition);cursor:pointer;position:relative}
-.free-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
-.free-card-img{height:260px;position:relative;overflow:hidden}
-.free-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.free-card:hover .free-card-img img{transform:scale(1.05)}
-.free-tag{position:absolute;top:12px;left:12px;background:var(--free-tag);color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-.free-card-info{padding:16px}
-.free-card-title{font-size:15px;font-weight:600;margin-bottom:4px}
-.free-card-price{display:flex;align-items:center;gap:8px}
-.free-card-price .original{color:var(--text-muted);text-decoration:line-through;font-size:13px}
-.free-card-price .current{color:var(--discount);font-weight:700;font-size:14px}
-.free-timer{display:flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:12px;margin-top:8px}
-.free-timer svg{width:14px;height:14px;color:var(--text-muted)}
-.countdown{display:flex;gap:4px}
-.countdown-unit{background:var(--bg-elevated);padding:2px 6px;border-radius:4px;font-weight:600;font-size:12px;min-width:28px;text-align:center}
+/* ═══ SECTIONS ═══ */
+.section{padding:32px 0 0}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+.section-more{font-size:12px;color:var(--text-gray);font-weight:500;display:flex;align-items:center;gap:4px;transition:color .2s}
+.section-more:hover{color:#fff}
+.section-more svg{width:12px;height:12px}
 
-/* ─── CATEGORIES ─── */
-.categories-scroll{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;-ms-overflow-style:none;scrollbar-width:none}
-.categories-scroll::-webkit-scrollbar{display:none}
-.cat-pill{padding:8px 20px;border-radius:20px;font-size:13px;font-weight:500;background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);white-space:nowrap;cursor:pointer;transition:var(--transition)}
-.cat-pill:hover,.cat-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* ═══ FREE GAMES ═══ */
+.free-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.free-card{border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:transform .2s,box-shadow .2s;cursor:pointer}
+.free-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.free-card-img{height:240px;position:relative;overflow:hidden}
+.free-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.free-card:hover img{transform:scale(1.03)}
+.free-tag{position:absolute;top:10px;left:10px;background:var(--free-blue);color:#fff;padding:3px 10px;border-radius:var(--radius-sm);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.free-info{padding:14px 16px}
+.free-name{font-size:14px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.free-price{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.free-price .old{color:var(--text-dark);text-decoration:line-through;font-size:12px}
+.free-price .new{color:var(--discount-green);font-weight:700;font-size:13px}
+.free-timer{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-gray)}
+.free-timer svg{width:12px;height:12px;opacity:.6}
+.countdown-box{background:var(--bg-nav);padding:1px 5px;border-radius:3px;font-weight:600;font-size:11px}
 
-/* ─── GAME CARDS GRID ─── */
-.games-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.game-card{border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:var(--transition);cursor:pointer;position:relative}
-.game-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
-.game-card-img{height:200px;position:relative;overflow:hidden}
-.game-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.game-card:hover .game-card-img img{transform:scale(1.05)}
-.wishlist-btn{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;transition:var(--transition);border:none;cursor:pointer}
-.game-card:hover .wishlist-btn{opacity:1}
-.wishlist-btn:hover{background:rgba(255,255,255,.2);transform:scale(1.1)}
-.wishlist-btn svg{width:16px;height:16px;color:#fff}
-.discount-badge{position:absolute;bottom:10px;left:10px;background:var(--discount);color:#000;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:800}
-.game-card-info{padding:14px 16px}
-.game-card-platforms{display:flex;gap:6px;margin-bottom:6px}
-.game-card-platforms svg{width:14px;height:14px;color:var(--text-muted)}
-.game-card-title{font-size:14px;font-weight:600;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.game-card-pricing{display:flex;align-items:center;gap:8px}
-.game-card-pricing .original{color:var(--text-muted);text-decoration:line-through;font-size:12px}
-.game-card-pricing .price{font-size:14px;font-weight:600}
+/* ═══ CATEGORIES ═══ */
+.cat-row{display:flex;gap:8px;overflow-x:auto;padding:4px 0;-ms-overflow-style:none;scrollbar-width:none}
+.cat-row::-webkit-scrollbar{display:none}
+.cat-pill{padding:7px 18px;border-radius:20px;font-size:12px;font-weight:500;background:transparent;border:1px solid var(--border);color:var(--text-gray);white-space:nowrap;cursor:pointer;transition:all .2s}
+.cat-pill:hover,.cat-pill.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
-/* ─── TOP SELLERS ─── */
-.top-seller-card{position:relative}
-.seller-rank{position:absolute;top:10px;left:10px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;z-index:2;border:1px solid rgba(255,255,255,.15)}
+/* ═══ GAME CARDS ═══ */
+.games-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.game-card{border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:transform .2s,box-shadow .2s;cursor:pointer;position:relative}
+.game-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.game-card-img{height:190px;position:relative;overflow:hidden}
+.game-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.game-card:hover .game-card-img img{transform:scale(1.03)}
+.card-wishlist{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;cursor:pointer}
+.game-card:hover .card-wishlist{opacity:1}
+.card-wishlist svg{width:14px;height:14px;color:#fff}
+.discount-tag{position:absolute;bottom:8px;left:8px;background:var(--discount-green);color:#000;padding:2px 6px;border-radius:var(--radius-sm);font-size:11px;font-weight:800}
+.card-info{padding:12px 14px}
+.card-platforms{display:flex;gap:4px;margin-bottom:4px}
+.card-platforms svg{width:12px;height:12px;color:var(--text-dark)}
+.card-name{font-size:13px;font-weight:600;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-pricing{display:flex;align-items:center;gap:6px}
+.card-pricing .old{color:var(--text-dark);text-decoration:line-through;font-size:12px}
+.card-pricing .price{font-size:13px;font-weight:600}
+.seller-rank{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;z-index:2}
 
-/* ─── RECENTLY UPDATED ─── */
-.recent-scroll{display:flex;gap:16px;overflow-x:auto;padding:4px 0 16px;-ms-overflow-style:none;scrollbar-width:none}
-.recent-scroll::-webkit-scrollbar{display:none}
-.recent-card{min-width:200px;border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:var(--transition);cursor:pointer;flex-shrink:0}
-.recent-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
-.recent-card-img{height:120px;overflow:hidden}
-.recent-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
-.recent-card:hover .recent-card-img img{transform:scale(1.05)}
-.recent-card-info{padding:12px}
-.recent-card-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.recent-card-update{font-size:11px;color:var(--text-muted);margin-top:4px}
+/* ═══ RECENTLY UPDATED ═══ */
+.recent-row{display:flex;gap:14px;overflow-x:auto;padding:4px 0;-ms-overflow-style:none;scrollbar-width:none}
+.recent-row::-webkit-scrollbar{display:none}
+.recent-card{min-width:180px;border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);transition:transform .2s;cursor:pointer;flex-shrink:0}
+.recent-card:hover{transform:translateY(-2px)}
+.recent-card-img{height:110px;overflow:hidden}
+.recent-card-img img{width:100%;height:100%;object-fit:cover}
+.recent-card-info{padding:10px 12px}
+.recent-card-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-card-tag{font-size:10px;color:var(--text-dark);margin-top:2px}
 
-/* ─── GENRE GRID ─── */
-.genre-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.genre-card{height:160px;border-radius:var(--radius-lg);overflow:hidden;position:relative;cursor:pointer;transition:var(--transition)}
-.genre-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
-.genre-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s ease}
-.genre-card:hover .genre-card-bg{transform:scale(1.06)}
-.genre-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.85) 100%)}
-.genre-card-label{position:absolute;bottom:16px;left:16px;z-index:1;font-family:'Outfit',sans-serif;font-size:18px;font-weight:700}
+/* ═══ GENRE GRID ═══ */
+.genre-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.genre-card{height:140px;border-radius:var(--radius-lg);overflow:hidden;position:relative;cursor:pointer;transition:transform .2s}
+.genre-card:hover{transform:translateY(-2px)}
+.genre-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .4s}
+.genre-card:hover .genre-card-bg{transform:scale(1.04)}
+.genre-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.8) 100%)}
+.genre-card span{position:absolute;bottom:14px;left:14px;z-index:1;font-size:16px;font-weight:700}
 
-/* ─── FOOTER ─── */
-.footer{background:#0a0a0a;border-top:1px solid #1e1e1e;margin-top:60px;padding:60px 0 30px}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid #1e1e1e}
-.footer-brand{display:flex;flex-direction:column;gap:16px}
-.footer-brand-logo{display:flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;font-weight:800;font-size:20px}
-.footer-brand-logo svg{width:36px;height:36px}
-.footer-brand p{font-size:13px;color:var(--text-muted);line-height:1.7;max-width:300px}
-.footer-social{display:flex;gap:10px;margin-top:8px}
-.footer-social a{width:36px;height:36px;border-radius:50%;background:var(--bg-card);display:flex;align-items:center;justify-content:center;transition:var(--transition)}
-.footer-social a:hover{background:var(--accent);transform:translateY(-2px)}
-.footer-social a svg{width:16px;height:16px;color:var(--text-secondary)}
+/* ═══ FOOTER ═══ */
+.footer{background:#0a0a0a;border-top:1px solid #1a1a1a;margin-top:48px;padding:48px 0 24px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:32px;border-bottom:1px solid #1a1a1a}
+.footer-brand p{font-size:12px;color:var(--text-dark);line-height:1.7;max-width:280px;margin-top:12px}
+.footer-brand-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px}
+.footer-brand-logo .shield{width:24px;height:28px}
+.footer-social{display:flex;gap:8px;margin-top:12px}
+.footer-social a{width:32px;height:32px;border-radius:50%;background:var(--bg-card);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.footer-social a:hover{background:var(--blue)}
+.footer-social a svg{width:14px;height:14px;color:var(--text-gray)}
 .footer-social a:hover svg{color:#fff}
-.footer-col h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;color:var(--text-secondary)}
-.footer-col a{display:block;font-size:13px;color:var(--text-muted);padding:4px 0;transition:var(--transition)}
+.footer-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;color:var(--text-gray)}
+.footer-col a{display:block;font-size:12px;color:var(--text-dark);padding:3px 0;transition:color .2s}
 .footer-col a:hover{color:#fff}
-.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;font-size:11px;color:var(--text-muted)}
-.footer-bottom-links{display:flex;gap:16px}
-.footer-bottom-links a{color:var(--text-muted);transition:var(--transition)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:20px;font-size:10px;color:var(--text-dark)}
+.footer-bottom-links{display:flex;gap:14px}
+.footer-bottom-links a{color:var(--text-dark);transition:color .2s}
 .footer-bottom-links a:hover{color:#fff}
 
-/* ─── RESPONSIVE ─── */
+/* ═══ SIGN IN OVERLAY ═══ */
+.signin-overlay{position:fixed;inset:0;background:var(--bg-page);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column}
+.signin-overlay.open{display:flex}
+.signin-page{width:100%;max-width:400px;padding:40px 24px;text-align:center}
+.signin-back{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:6px;color:var(--text-gray);font-size:13px;font-weight:500;cursor:pointer;transition:color .2s}
+.signin-back:hover{color:#fff}
+.signin-back svg{width:18px;height:18px}
+.signin-logo-wrap{margin-bottom:24px}
+.signin-logo-wrap .shield{width:48px;height:56px;margin:0 auto}
+.signin-heading{font-size:20px;font-weight:700;margin-bottom:28px}
+.signin-socials-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.social-icon-btn{width:48px;height:48px;border-radius:var(--radius);background:#26262a;border:1px solid #333;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.social-icon-btn:hover{background:#333;border-color:#444}
+.social-icon-btn svg{width:22px;height:22px}
+.signin-divider{display:flex;align-items:center;gap:12px;margin-bottom:24px;color:var(--text-dark);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.signin-divider::before,.signin-divider::after{content:'';flex:1;height:1px;background:#2a2a2e}
+.signin-form{text-align:left}
+.signin-field{margin-bottom:14px}
+.signin-field label{display:block;font-size:11px;font-weight:600;color:var(--text-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.signin-field input{width:100%;height:42px;border-radius:var(--radius);border:1px solid #333;background:#26262a;color:#fff;padding:0 12px;font-size:13px;outline:none;transition:border-color .2s}
+.signin-field input:focus{border-color:var(--blue)}
+.signin-field input::placeholder{color:var(--text-dark)}
+.signin-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.signin-remember{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-gray);cursor:pointer}
+.signin-remember input{accent-color:var(--blue);width:14px;height:14px}
+.signin-forgot{font-size:12px;color:var(--blue);transition:color .2s}
+.signin-forgot:hover{color:var(--blue-light)}
+.signin-submit{width:100%;height:42px;border-radius:var(--radius);background:var(--blue);color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;border:none}
+.signin-submit:hover{background:var(--blue-hover)}
+.signin-error{background:rgba(255,60,60,.08);border:1px solid rgba(255,60,60,.2);border-radius:var(--radius);padding:10px;font-size:12px;color:#ff6b6b;text-align:center;margin-top:12px;display:none}
+.signin-error.show{display:block}
+.signin-footer{margin-top:24px;padding-top:24px;border-top:1px solid #2a2a2e;font-size:13px;color:var(--text-dark);text-align:center}
+.signin-footer a{color:var(--blue);font-weight:500}
+.signin-terms{margin-top:16px;font-size:10px;color:var(--text-dark);line-height:1.5;text-align:center}
+.signin-terms a{color:var(--text-gray)}
+
+/* ═══ RESPONSIVE ═══ */
 @media(max-width:1100px){
 .games-grid,.genre-grid{grid-template-columns:repeat(3,1fr)}
-.footer-top{grid-template-columns:repeat(3,1fr)}
-.hero{height:420px;margin:16px 24px 32px}
-.hero-title{font-size:32px}
-.hero-content{padding:40px}
-.container{padding:0 24px}
-.top-bar{padding:0 24px}
-.main-nav{padding:0 24px}
+.footer-grid{grid-template-columns:repeat(3,1fr)}
+.hero{height:400px;margin:16px 16px 0}
+.hero-title{font-size:28px}
+.hero-content{left:32px;bottom:40px}
 }
 @media(max-width:768px){
-.top-bar{display:none}
-.nav-links{display:none}
-.search-box{display:none}
+.topbar{display:none}
+.nav-menu,.nav-right .nav-btn:not(:last-child){display:none}
 .hamburger{display:flex}
-.hero{height:360px;margin:12px 16px 24px;border-radius:var(--radius-lg)}
-.hero-title{font-size:26px}
-.hero-desc{font-size:13px}
-.hero-content{padding:24px}
+.hero{height:340px;margin:12px 12px 0;border-radius:var(--radius)}
+.hero-title{font-size:22px}
+.hero-desc{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hero-content{left:20px;bottom:24px;max-width:280px}
+.hero-btns{flex-direction:column;gap:6px}
+.btn-blue,.btn-ghost{padding:8px 20px;font-size:12px;text-align:center;justify-content:center}
 .hero-arrows{display:none}
-.hero-dots{right:auto;left:24px;bottom:20px}
-.hero-actions{flex-direction:column;gap:8px}
-.btn-primary,.btn-secondary{padding:10px 24px;font-size:13px;justify-content:center}
-.container{padding:0 16px}
-.main-nav{padding:0 16px;height:56px}
-.free-games-grid{grid-template-columns:1fr}
+.hero-nav{right:20px;bottom:16px}
+.container{padding:0 12px}
+.free-grid{grid-template-columns:1fr}
 .games-grid{grid-template-columns:repeat(2,1fr)}
 .genre-grid{grid-template-columns:repeat(2,1fr)}
-.section-title{font-size:18px}
-.footer-top{grid-template-columns:1fr 1fr}
+.section-title{font-size:15px}
+.footer-grid{grid-template-columns:1fr 1fr}
 .footer-brand{grid-column:1/-1}
-.footer-bottom{flex-direction:column;gap:12px;text-align:center}
+.footer-bottom{flex-direction:column;gap:10px;text-align:center}
+.mainnav{height:50px;padding:0 12px}
 }
 @media(max-width:480px){
 .games-grid{grid-template-columns:1fr}
 .genre-grid{grid-template-columns:1fr}
-.footer-top{grid-template-columns:1fr}
+.footer-grid{grid-template-columns:1fr}
+.signin-socials-row{gap:8px}
+.social-icon-btn{width:42px;height:42px}
 }
 
-/* ─── SIGN IN MODAL ─── */
-.signin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .3s ease}
-.signin-overlay.open{display:flex;opacity:1}
-.signin-modal{background:#18181c;border-radius:12px;width:100%;max-width:440px;padding:40px;position:relative;max-height:90vh;overflow-y:auto;animation:modalIn .3s ease}
-@keyframes modalIn{from{transform:translateY(20px) scale(.97);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-.signin-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--transition);cursor:pointer;background:none;border:none;color:var(--text-secondary)}
-.signin-close:hover{background:rgba(255,255,255,.1);color:#fff}
-.signin-close svg{width:20px;height:20px}
-.signin-logo{display:flex;justify-content:center;margin-bottom:28px}
-.signin-logo svg{width:48px;height:48px}
-.signin-title{text-align:center;font-size:20px;font-weight:700;margin-bottom:24px;font-family:'Outfit',sans-serif}
-.signin-socials{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
-.signin-social-btn{display:flex;align-items:center;gap:12px;width:100%;padding:11px 16px;border-radius:8px;background:#242428;border:1px solid #333;color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:var(--transition)}
-.signin-social-btn:hover{background:#2e2e34;border-color:#444}
-.signin-social-btn svg,.signin-social-btn img{width:20px;height:20px;flex-shrink:0}
-.signin-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text-muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-.signin-divider::before,.signin-divider::after{content:'';flex:1;height:1px;background:#333}
-.signin-form{display:flex;flex-direction:column;gap:14px}
-.signin-field{display:flex;flex-direction:column;gap:6px}
-.signin-field label{font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em}
-.signin-field input{height:44px;border-radius:8px;border:1px solid #333;background:#242428;color:#fff;padding:0 14px;font-size:14px;outline:none;transition:var(--transition)}
-.signin-field input:focus{border-color:var(--accent);background:#1e1e24}
-.signin-field input::placeholder{color:var(--text-muted)}
-.signin-remember{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);cursor:pointer}
-.signin-remember input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
-.signin-submit{height:46px;border-radius:8px;background:var(--accent);color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:var(--transition);border:none;margin-top:4px}
-.signin-submit:hover{background:var(--accent-hover)}
-.signin-links{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:16px}
-.signin-links a{font-size:13px;color:var(--accent);transition:var(--transition)}
-.signin-links a:hover{color:var(--accent-light);text-decoration:underline}
-.signin-signup{text-align:center;font-size:13px;color:var(--text-muted);margin-top:20px;padding-top:20px;border-top:1px solid #333}
-.signin-signup a{color:var(--accent);font-weight:500}
-.signin-error{background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.3);border-radius:8px;padding:12px 16px;font-size:13px;color:#ff6b6b;text-align:center;display:none;margin-top:8px}
-.signin-error.show{display:block;animation:fadeInUp .3s ease}
-
-@media(max-width:480px){
-.signin-modal{margin:16px;padding:28px 20px}
-}
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.animate-in{animation:fadeInUp .6s ease forwards;opacity:0}
-.stagger-1{animation-delay:.1s}.stagger-2{animation-delay:.2s}.stagger-3{animation-delay:.3s}.stagger-4{animation-delay:.4s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 
-<!-- TOP UTILITY BAR -->
-<div class="top-bar">
-  <div class="top-bar-left">
-    <span class="top-bar-logo">EPIC GAMES</span>
-    <div class="top-bar-links">
+<!-- ═══ TOP BAR ═══ -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-brand">Epic Games</span>
+    <div class="topbar-links">
       <a href="#">Store</a>
       <a href="#">Distribution</a>
       <a href="#">Support</a>
       <a href="#">Unreal Engine</a>
-      <a href="#">Fortnite</a>
-      <a href="#">Fall Guys</a>
     </div>
   </div>
-  <div class="top-bar-right">
-    <span class="lang-selector">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      English
+  <div class="topbar-right">
+    <span class="globe-btn">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
     </span>
-    <a href="#">Sign In</a>
+    <a class="signin-link" id="topSignin">Sign In</a>
   </div>
 </div>
 
-<!-- MAIN NAVIGATION -->
-<nav class="main-nav" id="mainNav">
+<!-- ═══ MAIN NAV ═══ -->
+<nav class="mainnav">
   <div class="nav-left">
     <a href="#" class="nav-logo">
-      <svg viewBox="0 0 40 40" width="32" height="32"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0074E4"/><stop offset="100%" stop-color="#00a8ff"/></linearGradient></defs><rect width="40" height="40" rx="8" fill="url(#g1)"/><path d="M10 12h14v2h-14zM10 17h20v2h-20zM10 22h16v2h-16zM10 27h12v2h-12z" fill="#fff" opacity=".9"/></svg>
-      <span class="nav-logo-text">EPIC GAMES <span style="font-weight:400;opacity:.5;font-size:14px">STORE</span></span>
+      <svg class="shield" viewBox="0 0 30 36" fill="none">
+        <path d="M15 0L0 6v12c0 9.94 6.4 19.24 15 21.6 8.6-2.36 15-11.66 15-21.6V6L15 0z" fill="#fff"/>
+        <path d="M15 2L2 7.2v10.8c0 8.8 5.6 17 13 19.1 7.4-2.1 13-10.3 13-19.1V7.2L15 2z" fill="#121212"/>
+        <text x="15" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="11" fill="#fff">E</text>
+      </svg>
+      <span class="store-text">Store</span>
     </a>
-    <div class="nav-links">
+    <div class="nav-menu">
       <a href="#" class="active">Discover</a>
       <a href="#">Browse</a>
       <a href="#">News</a>
-      <a href="#">Wishlist</a>
     </div>
   </div>
   <div class="nav-right">
-    <div class="search-box">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Search store">
-    </div>
-    <button class="nav-icon" title="Wishlist">
+    <button class="nav-btn" title="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </button>
+    <button class="nav-btn" title="Wishlist">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
     </button>
-    <button class="nav-icon" title="Cart">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-      <span class="badge"></span>
+    <button class="nav-btn" title="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+      <span class="dot"></span>
     </button>
-    <button class="user-btn">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Sign In
+    <button class="nav-btn" title="Account" id="navSignin">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </button>
-    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="hamburger" id="hamburgerBtn"><span></span></div>
   </div>
 </nav>
 
-<!-- MOBILE NAV -->
-<div class="mobile-nav" id="mobileNav">
+<!-- ═══ MOBILE MENU ═══ -->
+<div class="mobile-menu" id="mobileMenu">
   <a href="#">Discover</a>
   <a href="#">Browse</a>
   <a href="#">News</a>
   <a href="#">Wishlist</a>
   <a href="#">Cart</a>
-  <a href="#">Sign In</a>
+  <a class="mobile-signin" id="mobileSignin">Sign In</a>
 </div>
 
-<!-- HERO CAROUSEL -->
-<section class="hero" id="heroCarousel">
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
   <div class="hero-slides" id="heroSlides">
     <div class="hero-slide">
-      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07');background-position:top center"></div>
+      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07')"></div>
       <div class="hero-content">
-        <span class="hero-tag">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Now Available
-        </span>
+        <div class="hero-badge">Now Available</div>
         <h1 class="hero-title">Ghostrunner 2</h1>
-        <p class="hero-desc">Hardcore FPP slasher set in a post-apocalyptic cyberpunk world. Featuring boss fights, interactive story, and motorbike levels.</p>
-        <div class="hero-actions">
-          <button class="btn-primary">
-            Buy Now - $39.99
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <button class="btn-secondary">Add to Wishlist</button>
+        <p class="hero-desc">Hardcore FPP slasher set in a post-apocalyptic cyberpunk world. Boss fights, interactive story, and motorbike levels.</p>
+        <div class="hero-btns">
+          <button class="btn-blue">Buy Now - $39.99</button>
+          <button class="btn-ghost">Add to Wishlist</button>
         </div>
       </div>
     </div>
     <div class="hero-slide">
-      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae');background-position:top center"></div>
+      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae')"></div>
       <div class="hero-content">
-        <span class="hero-tag" style="background:var(--discount)">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          55% Off
-        </span>
+        <div class="hero-badge">55% Off</div>
         <h1 class="hero-title">LISA: The Definitive Edition</h1>
-        <p class="hero-desc">The complete LISA experience. Includes The Painful and The Joyful in one definitive bundle. A genre-defining RPG journey.</p>
-        <div class="hero-actions">
-          <button class="btn-primary">
-            Buy Now - $11.24
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <button class="btn-secondary">Add to Wishlist</button>
+        <p class="hero-desc">The complete LISA experience. Includes The Painful and The Joyful in one definitive bundle.</p>
+        <div class="hero-btns">
+          <button class="btn-blue">Buy Now - $11.24</button>
+          <button class="btn-ghost">Add to Wishlist</button>
         </div>
       </div>
     </div>
     <div class="hero-slide">
-      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png');background-position:top center"></div>
+      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png')"></div>
       <div class="hero-content">
-        <span class="hero-tag" style="background:var(--discount)">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          40% Off
-        </span>
+        <div class="hero-badge">40% Off</div>
         <h1 class="hero-title">Castlevania Anniversary Collection</h1>
-        <p class="hero-desc">Relive the classic Castlevania series with this definitive collection of beloved titles. Explore Dracula's castle in this timeless franchise.</p>
-        <div class="hero-actions">
-          <button class="btn-primary">
-            Buy Now - $11.99
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <button class="btn-secondary">Add to Wishlist</button>
+        <p class="hero-desc">Relive the classic Castlevania series with this definitive collection of beloved titles.</p>
+        <div class="hero-btns">
+          <button class="btn-blue">Buy Now - $11.99</button>
+          <button class="btn-ghost">Add to Wishlist</button>
         </div>
       </div>
     </div>
     <div class="hero-slide">
-      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg');background-position:top center"></div>
+      <div class="hero-slide-bg" style="background-image:url('https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg')"></div>
       <div class="hero-content">
-        <span class="hero-tag">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Featured
-        </span>
+        <div class="hero-badge">Featured</div>
         <h1 class="hero-title">Monument Valley</h1>
-        <p class="hero-desc">A meditative and calming puzzle game. Manipulate monuments and create evolving paths to explore new, surreal worlds.</p>
-        <div class="hero-actions">
-          <button class="btn-primary">
-            Buy Now - $5.19
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <button class="btn-secondary">Add to Wishlist</button>
+        <p class="hero-desc">A meditative, calming puzzle game. Manipulate monuments and explore surreal worlds.</p>
+        <div class="hero-btns">
+          <button class="btn-blue">Buy Now - $5.19</button>
+          <button class="btn-ghost">Add to Wishlist</button>
         </div>
       </div>
     </div>
   </div>
   <div class="hero-arrows">
-    <button class="hero-arrow" id="heroPrev">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <button class="hero-arrow" id="heroNext">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
+    <button class="hero-arrow" id="heroPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="hero-arrow" id="heroNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
   </div>
-  <div class="hero-dots" id="heroDots">
-    <button class="hero-dot active" data-index="0"></button>
-    <button class="hero-dot" data-index="1"></button>
-    <button class="hero-dot" data-index="2"></button>
-    <button class="hero-dot" data-index="3"></button>
+  <div class="hero-nav" id="heroDots">
+    <button class="hero-dot active" data-i="0"></button>
+    <button class="hero-dot" data-i="1"></button>
+    <button class="hero-dot" data-i="2"></button>
+    <button class="hero-dot" data-i="3"></button>
   </div>
   <div class="hero-progress" id="heroProgress"></div>
 </section>
@@ -449,69 +401,52 @@ img{display:block;max-width:100%}
 <div class="container">
 
   <!-- FREE GAMES -->
-  <section class="section" id="freeGames">
-    <div class="section-header">
-      <h2 class="section-title">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg>
-        Free Games
-      </h2>
-      <a href="#" class="section-link">View More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Free Games</h2>
+      <a href="#" class="section-more">View More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
     </div>
-    <div class="free-games-grid">
-      <div class="free-card animate-in stagger-1">
+    <div class="free-grid">
+      <div class="free-card">
         <div class="free-card-img">
-          <img src="https://cdn1.epicgames.com/spt-assets/fee7dc25f12c4400a5182c864fd89c66/arranger-a-rolepuzzling-adventure-1dhii.jpg" alt="Arranger">
-          <span class="free-tag">FREE NOW</span>
+          <img src="https://cdn1.epicgames.com/spt-assets/fee7dc25f12c4400a5182c864fd89c66/arranger-a-rolepuzzling-adventure-1dhii.jpg" alt="Arranger" loading="lazy">
+          <span class="free-tag">Free Now</span>
         </div>
-        <div class="free-card-info">
-          <div class="free-card-title">Arranger: A Role-Puzzling Adventure</div>
-          <div class="free-card-price">
-            <span class="original">$19.99</span>
-            <span class="current">Free</span>
-          </div>
+        <div class="free-info">
+          <div class="free-name">Arranger: A Role-Puzzling Adventure</div>
+          <div class="free-price"><span class="old">$19.99</span><span class="new">Free</span></div>
           <div class="free-timer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Free until:
-            <div class="countdown" data-days="1" data-hours="8" data-mins="37">
-              <span class="countdown-unit">1d</span>
-              <span class="countdown-unit">8h</span>
-              <span class="countdown-unit">37m</span>
-            </div>
+            <span class="countdown-box">1d</span>
+            <span class="countdown-box">8h</span>
+            <span class="countdown-box">37m</span>
           </div>
         </div>
       </div>
-      <div class="free-card animate-in stagger-2">
+      <div class="free-card">
         <div class="free-card-img">
-          <img src="https://cdn1.epicgames.com/spt-assets/113ae486fe9040d89a7fc25a501dc3b9/trash-goblin-6n7xr.png" alt="Trash Goblin">
-          <span class="free-tag">FREE NOW</span>
+          <img src="https://cdn1.epicgames.com/spt-assets/113ae486fe9040d89a7fc25a501dc3b9/trash-goblin-6n7xr.png" alt="Trash Goblin" loading="lazy">
+          <span class="free-tag">Free Now</span>
         </div>
-        <div class="free-card-info">
-          <div class="free-card-title">Trash Goblin</div>
-          <div class="free-card-price">
-            <span class="original">$19.99</span>
-            <span class="current">Free</span>
-          </div>
+        <div class="free-info">
+          <div class="free-name">Trash Goblin</div>
+          <div class="free-price"><span class="old">$19.99</span><span class="new">Free</span></div>
           <div class="free-timer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Free until:
-            <div class="countdown">
-              <span class="countdown-unit">1d</span>
-              <span class="countdown-unit">8h</span>
-              <span class="countdown-unit">37m</span>
-            </div>
+            <span class="countdown-box">1d</span>
+            <span class="countdown-box">8h</span>
+            <span class="countdown-box">37m</span>
           </div>
         </div>
       </div>
-      <div class="free-card animate-in stagger-3">
+      <div class="free-card">
         <div class="free-card-img">
-          <img src="https://cdn1.epicgames.com/offer/d5241c76f178492ea1540fce45616757/image24_1200x1600-bdc90908480d4d5a96ec4535855aeff3" alt="Mystery Game">
-          <span class="free-tag" style="background:#666">COMING SOON</span>
+          <img src="https://cdn1.epicgames.com/offer/d5241c76f178492ea1540fce45616757/image24_1200x1600-bdc90908480d4d5a96ec4535855aeff3" alt="Mystery Game" loading="lazy">
+          <span class="free-tag" style="background:#555">Coming Soon</span>
         </div>
-        <div class="free-card-info">
-          <div class="free-card-title">Mystery Game</div>
-          <div class="free-card-price">
-            <span class="current" style="color:var(--text-secondary)">Free May 15</span>
-          </div>
+        <div class="free-info">
+          <div class="free-name">Mystery Game</div>
+          <div class="free-price"><span class="new" style="color:var(--text-gray)">Free May 15</span></div>
           <div class="free-timer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             Mystery Game
@@ -523,10 +458,10 @@ img{display:block;max-width:100%}
 
   <!-- CATEGORIES -->
   <section class="section">
-    <div class="section-header">
-      <h2 class="section-title">Browse by Category</h2>
+    <div class="section-head">
+      <h2 class="section-title">Browse</h2>
     </div>
-    <div class="categories-scroll">
+    <div class="cat-row">
       <button class="cat-pill active">All</button>
       <button class="cat-pill">Action</button>
       <button class="cat-pill">Adventure</button>
@@ -541,144 +476,134 @@ img{display:block;max-width:100%}
       <button class="cat-pill">Indie</button>
       <button class="cat-pill">Open World</button>
       <button class="cat-pill">Survival</button>
-      <button class="cat-pill">Fighting</button>
-      <button class="cat-pill">Platformer</button>
     </div>
   </section>
 
-  <!-- FEATURED GAMES -->
-  <section class="section" id="featuredGames">
-    <div class="section-header">
-      <h2 class="section-title">Featured Games</h2>
-      <a href="#" class="section-link">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+  <!-- FEATURED -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Featured</h2>
+      <a href="#" class="section-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
     </div>
     <div class="games-grid" id="featuredGrid"></div>
   </section>
 
   <!-- TOP SELLERS -->
-  <section class="section" id="topSellers">
-    <div class="section-header">
-      <h2 class="section-title">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        Top Sellers
-      </h2>
-      <a href="#" class="section-link">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Top Sellers</h2>
+      <a href="#" class="section-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
     </div>
-    <div class="games-grid" id="topSellersGrid"></div>
+    <div class="games-grid" id="topGrid"></div>
   </section>
 
   <!-- RECENTLY UPDATED -->
   <section class="section">
-    <div class="section-header">
-      <h2 class="section-title">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 105.64-12.36L1 10"/></svg>
-        Recently Updated
-      </h2>
-      <a href="#" class="section-link">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+    <div class="section-head">
+      <h2 class="section-title">Recently Updated</h2>
+      <a href="#" class="section-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
     </div>
-    <div class="recent-scroll" id="recentScroll"></div>
+    <div class="recent-row" id="recentRow"></div>
   </section>
 
   <!-- BROWSE BY GENRE -->
   <section class="section">
-    <div class="section-header">
+    <div class="section-head">
       <h2 class="section-title">Browse by Genre</h2>
     </div>
     <div class="genre-grid">
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1015/500/300')"></div><span class="genre-card-label">Action</span></div>
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1040/500/300')"></div><span class="genre-card-label">Adventure</span></div>
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1053/500/300')"></div><span class="genre-card-label">RPG</span></div>
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1067/500/300')"></div><span class="genre-card-label">Shooter</span></div>
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1073/500/300')"></div><span class="genre-card-label">Strategy</span></div>
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1077/500/300')"></div><span class="genre-card-label">Simulation</span></div>
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1080/500/300')"></div><span class="genre-card-label">Horror</span></div>
-      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1082/500/300')"></div><span class="genre-card-label">Indie</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1015/500/300')"></div><span>Action</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1040/500/300')"></div><span>Adventure</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1053/500/300')"></div><span>RPG</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1067/500/300')"></div><span>Shooter</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1073/500/300')"></div><span>Strategy</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1077/500/300')"></div><span>Simulation</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1080/500/300')"></div><span>Horror</span></div>
+      <div class="genre-card"><div class="genre-card-bg" style="background-image:url('https://picsum.photos/id/1082/500/300')"></div><span>Indie</span></div>
     </div>
   </section>
 
 </div>
 
-<!-- SIGN IN MODAL -->
+<!-- ═══ SIGN IN PAGE ═══ -->
 <div class="signin-overlay" id="signinOverlay">
-  <div class="signin-modal">
-    <button class="signin-close" id="signinClose">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-    <div class="signin-logo">
-      <svg viewBox="0 0 40 40" width="48" height="48"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0074E4"/><stop offset="100%" stop-color="#00a8ff"/></linearGradient></defs><rect width="40" height="40" rx="8" fill="url(#g3)"/><path d="M10 12h14v2h-14zM10 17h20v2h-20zM10 22h16v2h-16zM10 27h12v2h-12z" fill="#fff" opacity=".9"/></svg>
+  <button class="signin-back" id="signinBack">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back
+  </button>
+  <div class="signin-page">
+    <div class="signin-logo-wrap">
+      <svg class="shield" viewBox="0 0 30 36" fill="none" style="display:block;margin:0 auto">
+        <path d="M15 0L0 6v12c0 9.94 6.4 19.24 15 21.6 8.6-2.36 15-11.66 15-21.6V6L15 0z" fill="#fff"/>
+        <path d="M15 2L2 7.2v10.8c0 8.8 5.6 17 13 19.1 7.4-2.1 13-10.3 13-19.1V7.2L15 2z" fill="#121212"/>
+        <text x="15" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="11" fill="#fff">E</text>
+      </svg>
     </div>
-    <h2 class="signin-title">Sign in to Epic Games</h2>
-    <div class="signin-socials">
-      <button class="signin-social-btn" onclick="showSigninError()">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-        Sign in with Apple
+    <h2 class="signin-heading">Sign In</h2>
+    <div class="signin-socials-row">
+      <button class="social-icon-btn" title="Apple" onclick="showError()">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
       </button>
-      <button class="signin-social-btn" onclick="showSigninError()">
+      <button class="social-icon-btn" title="Facebook" onclick="showError()">
         <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        Sign in with Facebook
       </button>
-      <button class="signin-social-btn" onclick="showSigninError()">
+      <button class="social-icon-btn" title="Google" onclick="showError()">
         <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Sign in with Google
       </button>
-      <button class="signin-social-btn" onclick="showSigninError()">
+      <button class="social-icon-btn" title="Xbox" onclick="showError()">
         <svg viewBox="0 0 24 24" fill="#107C10"><path d="M11.4 24H1V13.6h10.4V24zM24 24H13.6V13.6H24V24zM11.4 10.4H1V0h10.4v10.4zM24 10.4H13.6V0H24v10.4z"/></svg>
-        Sign in with Xbox
       </button>
-      <button class="signin-social-btn" onclick="showSigninError()">
+      <button class="social-icon-btn" title="PlayStation" onclick="showError()">
         <svg viewBox="0 0 24 24" fill="#006FCD"><path d="M8.985 2.596v17.548l3.915 1.261V6.688c0-.69.304-1.151.794-.886-.975-1.843-2.067-2.63-3.322-3.015C9.768 2.603 8.985 2.596 8.985 2.596zm-4.97 5.732C.96 12.197 1.693 17.89 4.727 21.35c.375.425.758.817 1.235.906.323.061.688-.054.688-.054l4.485-1.561s-4.97-3.25-7.12-12.313zm15.57.276s-3.09 1.755-6.705 5.633c0 0 2.67 3.17 5.7 5.163 2.756-3.4 3.376-8.606 1.005-10.796z"/></svg>
-        Sign in with PlayStation
       </button>
-      <button class="signin-social-btn" onclick="showSigninError()">
-        <svg viewBox="0 0 24 24" fill="#E60012"><path d="M14.176 24H9.826v-4.35H5.476V24H1.126v-4.35H5.476v-4.348H1.126V10.95H5.476V6.602h4.35v4.35h4.35v4.35h-4.35v4.347h4.35V24zm-4.35-8.698h4.35V10.95h-4.35v4.352zM22.874 10.95h-4.348V6.602h-4.35V2.252h4.35V6.602h4.35V10.95zM14.176 2.252h-4.35V6.602h4.35V2.252z"/></svg>
-        Sign in with Nintendo
+      <button class="social-icon-btn" title="Nintendo" onclick="showError()">
+        <svg viewBox="0 0 24 24" fill="#E60012"><rect x="1" y="4" width="9" height="16" rx="4.5" fill="#E60012"/><rect x="14" y="4" width="9" height="16" rx="4.5" fill="#E60012"/><circle cx="5.5" cy="10" r="1.5" fill="#fff"/><rect x="10" y="4" width="4" height="16" fill="#E60012"/></svg>
       </button>
-      <button class="signin-social-btn" onclick="showSigninError()">
-        <svg viewBox="0 0 24 24" fill="#fff"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.032 0 .064.001.096.002l2.866-4.146V8.93c0-2.615 2.132-4.743 4.749-4.743 2.615 0 4.745 2.128 4.745 4.743 0 2.615-2.13 4.745-4.745 4.745h-.11l-4.08 2.912c0 .042.002.084.002.126 0 1.961-1.596 3.556-3.558 3.556-1.719 0-3.156-1.222-3.49-2.845L.238 14.37c1.402 5.505 6.385 9.577 12.337 9.577 7.015 0 12.702-5.683 12.702-12.693 0-7.01-5.687-12.693-12.702-12.693h.404zM7.39 18.996l-2.31-.954c.326.658.887 1.186 1.606 1.445.871.316 1.828.155 2.535-.364l.015-.01c.766-.549 1.22-1.443 1.22-2.397 0-.477-.117-.942-.343-1.36a2.89 2.89 0 00-.932-1.031l-1.782-.735 1.143.473c.636.329 1.063.944 1.128 1.641.065.696-.233 1.377-.792 1.804-.572.438-1.32.551-1.987.393-.319-.076-.6-.22-.831-.418a2.41 2.41 0 01-.67-1.487zm9.768-7.154c0-1.735-1.413-3.147-3.15-3.147-1.74 0-3.152 1.412-3.152 3.147 0 1.736 1.412 3.148 3.152 3.148 1.737 0 3.15-1.412 3.15-3.148zm-5.473 0c0-1.286 1.044-2.33 2.323-2.33 1.282 0 2.326 1.044 2.326 2.33 0 1.286-1.044 2.328-2.326 2.328-1.279 0-2.323-1.042-2.323-2.328z"/></svg>
-        Sign in with Steam
+      <button class="social-icon-btn" title="Steam" onclick="showError()">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.032 0 .064.001.096.002l2.866-4.146V8.93c0-2.615 2.132-4.743 4.749-4.743 2.615 0 4.745 2.128 4.745 4.743 0 2.615-2.13 4.745-4.745 4.745h-.11l-4.08 2.912c0 .042.002.084.002.126 0 1.961-1.596 3.556-3.558 3.556-1.719 0-3.156-1.222-3.49-2.845L.238 14.37c1.402 5.505 6.385 9.577 12.337 9.577 7.015 0 12.702-5.683 12.702-12.693 0-7.01-5.687-12.693-12.702-12.693z"/></svg>
       </button>
     </div>
     <div class="signin-divider">or</div>
-    <form class="signin-form" onsubmit="event.preventDefault();showSigninError()">
+    <form class="signin-form" onsubmit="event.preventDefault();showError()">
       <div class="signin-field">
         <label>Email Address</label>
-        <input type="email" placeholder="Enter your email">
+        <input type="email" placeholder="your@email.com">
       </div>
       <div class="signin-field">
         <label>Password</label>
-        <input type="password" placeholder="Enter your password">
+        <input type="password" placeholder="Password">
       </div>
-      <label class="signin-remember">
-        <input type="checkbox"> Remember me
-      </label>
-      <button type="submit" class="signin-submit">Sign In</button>
-      <div class="signin-error" id="signinError">Sorry, the credentials you are using are invalid. Please check your email and password and try again.</div>
+      <div class="signin-row">
+        <label class="signin-remember"><input type="checkbox"> Remember me</label>
+        <a href="#" class="signin-forgot">Forgot your password?</a>
+      </div>
+      <button type="submit" class="signin-submit">Log In Now</button>
+      <div class="signin-error" id="signinError">Sorry, the credentials you are using are invalid. Check your email and password.</div>
     </form>
-    <div class="signin-links">
-      <a href="#">Forgot Your Password?</a>
-    </div>
-    <div class="signin-signup">
-      Don't have an Epic Games account? <a href="#">Sign Up</a>
-    </div>
+    <div class="signin-footer">Don't have an Epic Games account? <a href="#">Sign Up</a></div>
+    <p class="signin-terms">By signing in you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- ═══ FOOTER ═══ -->
 <footer class="footer">
   <div class="container">
-    <div class="footer-top">
+    <div class="footer-grid">
       <div class="footer-brand">
         <div class="footer-brand-logo">
-          <svg viewBox="0 0 40 40" width="36" height="36"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0074E4"/><stop offset="100%" stop-color="#00a8ff"/></linearGradient></defs><rect width="40" height="40" rx="8" fill="url(#g2)"/><path d="M10 12h14v2h-14zM10 17h20v2h-20zM10 22h16v2h-16zM10 27h12v2h-12z" fill="#fff" opacity=".9"/></svg>
-          EPIC GAMES
+          <svg class="shield" viewBox="0 0 30 36" fill="none">
+            <path d="M15 0L0 6v12c0 9.94 6.4 19.24 15 21.6 8.6-2.36 15-11.66 15-21.6V6L15 0z" fill="#fff"/>
+            <path d="M15 2L2 7.2v10.8c0 8.8 5.6 17 13 19.1 7.4-2.1 13-10.3 13-19.1V7.2L15 2z" fill="#0a0a0a"/>
+            <text x="15" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="11" fill="#fff">E</text>
+          </svg>
+          Epic Games
         </div>
-        <p>Your home for the best games, free weekly titles, and exclusive deals. Join millions of players worldwide.</p>
+        <p>Your home for the best games, free weekly titles, and exclusive deals.</p>
         <div class="footer-social">
-          <a href="#" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
-          <a href="#" title="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
-          <a href="#" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0a0a0a"/></svg></a>
-          <a href="#" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg></a>
-          <a href="#" title="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.74 19.74 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.11 13.11 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.84 19.84 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.947 2.418-2.157 2.418z"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48" fill="#0a0a0a"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg></a>
         </div>
       </div>
       <div class="footer-col">
@@ -687,306 +612,128 @@ img{display:block;max-width:100%}
         <a href="#">Publish on Epic Games</a>
         <a href="#">Careers</a>
         <a href="#">Company</a>
-        <a href="#">Fan Art Policy</a>
       </div>
       <div class="footer-col">
         <h4>Made By Epic</h4>
-        <a href="#">Battle Breakers</a>
         <a href="#">Fortnite</a>
         <a href="#">Fall Guys</a>
         <a href="#">Rocket League</a>
-        <a href="#">Unreal Tournament</a>
+        <a href="#">Unreal Engine</a>
       </div>
       <div class="footer-col">
         <h4>Legal</h4>
         <a href="#">Terms of Service</a>
         <a href="#">Privacy Policy</a>
         <a href="#">Store Refund Policy</a>
-        <a href="#">Content Guidelines</a>
       </div>
       <div class="footer-col">
         <h4>Help</h4>
         <a href="#">Player Support</a>
-        <a href="#">Community Guidelines</a>
         <a href="#">Community Rules</a>
         <a href="#">FAQs</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2025 Epic Games, Inc. All Rights Reserved. Epic, Epic Games, the Epic Games logo, and Fortnite are trademarks or registered trademarks of Epic Games.</span>
+      <span>&copy; 2025 Epic Games, Inc. All Rights Reserved.</span>
       <div class="footer-bottom-links">
         <a href="#">Terms of Service</a>
         <a href="#">Privacy Policy</a>
-        <a href="#">Legal Info</a>
       </div>
     </div>
   </div>
 </footer>
 
 <script>
-// ─── GAME DATA ───
-const featuredGames = [
-  { title: "Ghostrunner 2", price: "$31.99", originalPrice: "$39.99", discount: "-20%", img: "https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07", platforms: ["win"] },
-  { title: "LISA: The Definitive Edition", price: "$11.24", originalPrice: "$24.99", discount: "-55%", img: "https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae", platforms: ["win"] },
-  { title: "Castlevania Anniversary Collection", price: "$11.99", originalPrice: "$19.99", discount: "-40%", img: "https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png", platforms: ["win"] },
-  { title: "Monument Valley", price: "$5.19", originalPrice: "$7.99", discount: "-35%", img: "https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg", platforms: ["win","mac"] },
-  { title: "Eternal Threads", price: "$15.99", originalPrice: "$19.99", discount: "-20%", img: "https://cdn1.epicgames.com/spt-assets/08813e055af64315b8a55b2e521f4e04/eternal-threads-1v92y.jpg", platforms: ["win"] },
-  { title: "Them's Fightin' Herds", price: "$19.99", discount: null, img: "https://cdn1.epicgames.com/offer/a567c32599bf4d4fb609e424f3691b39/EGS_ThemsFightinHerds_Mane6Inc_S2_1200x1600-9793ee024c43026c5c2b1612c7a487d0", platforms: ["win"] },
-  { title: "Model Builder: Complete Edition", price: "$19.99", discount: null, img: "https://cdn1.epicgames.com/spt-assets/7472ec268e344e77a85e95976c0ffc6d/model-builder-1ca62.png", platforms: ["win"] },
-  { title: "Lost Castle: The Old Ones Awaken", price: "$3.99", discount: null, img: "https://cdn1.epicgames.com/spt-assets/a6d76157ad884f2c9aa470b30da9e2ff/lost-castle-1qvy6.jpg", platforms: ["win"] }
+const featured = [
+  {t:"Ghostrunner 2",p:"$31.99",op:"$39.99",d:"-20%",img:"https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07",pl:["win"]},
+  {t:"LISA: The Definitive Edition",p:"$11.24",op:"$24.99",d:"-55%",img:"https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae",pl:["win"]},
+  {t:"Castlevania Anniversary Collection",p:"$11.99",op:"$19.99",d:"-40%",img:"https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png",pl:["win"]},
+  {t:"Monument Valley",p:"$5.19",op:"$7.99",d:"-35%",img:"https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg",pl:["win","mac"]},
+  {t:"Eternal Threads",p:"$15.99",op:"$19.99",d:"-20%",img:"https://cdn1.epicgames.com/spt-assets/08813e055af64315b8a55b2e521f4e04/eternal-threads-1v92y.jpg",pl:["win"]},
+  {t:"Them's Fightin' Herds",p:"$19.99",op:null,d:null,img:"https://cdn1.epicgames.com/offer/a567c32599bf4d4fb609e424f3691b39/EGS_ThemsFightinHerds_Mane6Inc_S2_1200x1600-9793ee024c43026c5c2b1612c7a487d0",pl:["win"]},
+  {t:"Model Builder",p:"$19.99",op:null,d:null,img:"https://cdn1.epicgames.com/spt-assets/7472ec268e344e77a85e95976c0ffc6d/model-builder-1ca62.png",pl:["win"]},
+  {t:"Lost Castle",p:"$3.99",op:null,d:null,img:"https://cdn1.epicgames.com/spt-assets/a6d76157ad884f2c9aa470b30da9e2ff/lost-castle-1qvy6.jpg",pl:["win"]}
+];
+const topSellers = [
+  {t:"Ghostrunner 2",p:"$31.99",op:"$39.99",d:"-20%",img:"https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07",pl:["win"]},
+  {t:"Castlevania Anniversary Collection",p:"$11.99",op:"$19.99",d:"-40%",img:"https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png",pl:["win"]},
+  {t:"LISA: The Definitive Edition",p:"$11.24",op:"$24.99",d:"-55%",img:"https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae",pl:["win"]},
+  {t:"Monument Valley",p:"$5.19",op:"$7.99",d:"-35%",img:"https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg",pl:["win","mac"]},
+  {t:"Eternal Threads",p:"$15.99",op:"$19.99",d:"-20%",img:"https://cdn1.epicgames.com/spt-assets/08813e055af64315b8a55b2e521f4e04/eternal-threads-1v92y.jpg",pl:["win"]},
+  {t:"Them's Fightin' Herds",p:"$19.99",op:null,d:null,img:"https://cdn1.epicgames.com/offer/a567c32599bf4d4fb609e424f3691b39/EGS_ThemsFightinHerds_Mane6Inc_S2_1200x1600-9793ee024c43026c5c2b1612c7a487d0",pl:["win"]},
+  {t:"Model Builder",p:"$19.99",op:null,d:null,img:"https://cdn1.epicgames.com/spt-assets/7472ec268e344e77a85e95976c0ffc6d/model-builder-1ca62.png",pl:["win"]},
+  {t:"Trash Goblin",p:"Free",op:null,d:null,img:"https://cdn1.epicgames.com/spt-assets/113ae486fe9040d89a7fc25a501dc3b9/trash-goblin-6n7xr.png",pl:["win"]}
+];
+const recent = [
+  {t:"Ghostrunner 2",u:"Season Update",img:"https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07"},
+  {t:"LISA: Definitive Ed.",u:"Definitive Update",img:"https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae"},
+  {t:"Monument Valley",u:"New Levels",img:"https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg"},
+  {t:"Castlevania",u:"Anniversary Patch",img:"https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png"},
+  {t:"Eternal Threads",u:"Bug Fixes",img:"https://cdn1.epicgames.com/spt-assets/08813e055af64315b8a55b2e521f4e04/eternal-threads-1v92y.jpg"},
+  {t:"Fightin' Herds",u:"Balance Patch",img:"https://cdn1.epicgames.com/offer/a567c32599bf4d4fb609e424f3691b39/EGS_ThemsFightinHerds_Mane6Inc_S2_1200x1600-9793ee024c43026c5c2b1612c7a487d0"},
+  {t:"Model Builder",u:"New Models",img:"https://cdn1.epicgames.com/spt-assets/7472ec268e344e77a85e95976c0ffc6d/model-builder-1ca62.png"},
+  {t:"Lost Castle",u:"Expansion",img:"https://cdn1.epicgames.com/spt-assets/a6d76157ad884f2c9aa470b30da9e2ff/lost-castle-1qvy6.jpg"},
+  {t:"Trash Goblin",u:"Launch",img:"https://cdn1.epicgames.com/spt-assets/113ae486fe9040d89a7fc25a501dc3b9/trash-goblin-6n7xr.png"},
+  {t:"Arranger",u:"Puzzle Pack",img:"https://cdn1.epicgames.com/spt-assets/fee7dc25f12c4400a5182c864fd89c66/arranger-a-rolepuzzling-adventure-1dhii.jpg"}
 ];
 
-const topSellerGames = [
-  { title: "Ghostrunner 2", price: "$31.99", originalPrice: "$39.99", discount: "-20%", img: "https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07", platforms: ["win"] },
-  { title: "Castlevania Anniversary Collection", price: "$11.99", originalPrice: "$19.99", discount: "-40%", img: "https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png", platforms: ["win"] },
-  { title: "LISA: The Definitive Edition", price: "$11.24", originalPrice: "$24.99", discount: "-55%", img: "https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae", platforms: ["win"] },
-  { title: "Monument Valley", price: "$5.19", originalPrice: "$7.99", discount: "-35%", img: "https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg", platforms: ["win","mac"] },
-  { title: "Eternal Threads", price: "$15.99", originalPrice: "$19.99", discount: "-20%", img: "https://cdn1.epicgames.com/spt-assets/08813e055af64315b8a55b2e521f4e04/eternal-threads-1v92y.jpg", platforms: ["win"] },
-  { title: "Them's Fightin' Herds", price: "$19.99", discount: null, img: "https://cdn1.epicgames.com/offer/a567c32599bf4d4fb609e424f3691b39/EGS_ThemsFightinHerds_Mane6Inc_S2_1200x1600-9793ee024c43026c5c2b1612c7a487d0", platforms: ["win"] },
-  { title: "Model Builder: Complete Edition", price: "$19.99", discount: null, img: "https://cdn1.epicgames.com/spt-assets/7472ec268e344e77a85e95976c0ffc6d/model-builder-1ca62.png", platforms: ["win"] },
-  { title: "Trash Goblin", price: "Free", discount: null, img: "https://cdn1.epicgames.com/spt-assets/113ae486fe9040d89a7fc25a501dc3b9/trash-goblin-6n7xr.png", platforms: ["win"] }
-];
+const winIcon='<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style="color:var(--text-dark)"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>';
+const macIcon='<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style="color:var(--text-dark)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
 
-const recentGames = [
-  { title: "Ghostrunner 2", update: "Season Update", img: "https://cdn1.epicgames.com/offer/708f57aaa04b42ef885be16c8288f0ac/EGS_Ghostrunner2_OneMoreLevel_S2_1200x1600-12ae7597b946ad94ac75680eb735be07" },
-  { title: "LISA: Definitive Edition", update: "Definitive Update", img: "https://cdn1.epicgames.com/offer/ca3a9d16d131478c97fd56c138a6511a/EGS_LISATheDefinitiveEdition_DingalingProductions_Bundles_S2_1200x1600-4a9b4fc6e06e8aff136c1a3cf18292ae" },
-  { title: "Monument Valley", update: "New Levels", img: "https://cdn1.epicgames.com/spt-assets/e56a7411805046d3b5b7253a6e4e0faa/monument-valley-bp09k.jpg" },
-  { title: "Castlevania Collection", update: "Anniversary Patch", img: "https://cdn1.epicgames.com/spt-assets/1ff2f74ba0ef4019b6905d8abe268819/castlevania-anniversary-collection-z3ev6.png" },
-  { title: "Eternal Threads", update: "Bug Fixes", img: "https://cdn1.epicgames.com/spt-assets/08813e055af64315b8a55b2e521f4e04/eternal-threads-1v92y.jpg" },
-  { title: "Them's Fightin' Herds", update: "Balance Patch", img: "https://cdn1.epicgames.com/offer/a567c32599bf4d4fb609e424f3691b39/EGS_ThemsFightinHerds_Mane6Inc_S2_1200x1600-9793ee024c43026c5c2b1612c7a487d0" },
-  { title: "Model Builder", update: "New Models DLC", img: "https://cdn1.epicgames.com/spt-assets/7472ec268e344e77a85e95976c0ffc6d/model-builder-1ca62.png" },
-  { title: "Lost Castle", update: "Expansion Pack", img: "https://cdn1.epicgames.com/spt-assets/a6d76157ad884f2c9aa470b30da9e2ff/lost-castle-1qvy6.jpg" },
-  { title: "Trash Goblin", update: "Launch Update", img: "https://cdn1.epicgames.com/spt-assets/113ae486fe9040d89a7fc25a501dc3b9/trash-goblin-6n7xr.png" },
-  { title: "Arranger", update: "Puzzle Pack", img: "https://cdn1.epicgames.com/spt-assets/fee7dc25f12c4400a5182c864fd89c66/arranger-a-rolepuzzling-adventure-1dhii.jpg" }
-];
-
-// ─── PLATFORM ICONS ───
-const platformIcons = {
-  win: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="color:var(--text-muted)"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>',
-  mac: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="color:var(--text-muted)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>'
-};
-
-// ─── RENDER GAME CARDS ───
-function renderGameCard(game, index, isTopSeller) {
-  const discountHTML = game.discount ? `<span class="discount-badge">${game.discount}</span>` : '';
-  const originalHTML = game.originalPrice ? `<span class="original">${game.originalPrice}</span>` : '';
-  const platformsHTML = game.platforms.map(p => platformIcons[p]).join('');
-  const rankHTML = isTopSeller ? `<span class="seller-rank">${index + 1}</span>` : '';
-  return `
-    <div class="game-card ${isTopSeller ? 'top-seller-card' : ''} animate-in stagger-${(index % 4) + 1}">
-      <div class="game-card-img">
-        <img src="${game.img}" alt="${game.title}" loading="lazy">
-        <button class="wishlist-btn" title="Add to Wishlist">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-        </button>
-        ${discountHTML}
-        ${rankHTML}
-      </div>
-      <div class="game-card-info">
-        <div class="game-card-platforms">${platformsHTML}</div>
-        <div class="game-card-title">${game.title}</div>
-        <div class="game-card-pricing">
-          ${originalHTML}
-          <span class="price">${game.price}</span>
-        </div>
-      </div>
-    </div>`;
+function card(g,i,rank){
+  const dt=g.d?`<span class="discount-tag">${g.d}</span>`:'';
+  const op=g.op?`<span class="old">${g.op}</span>`:'';
+  const rk=rank?`<span class="seller-rank">${i+1}</span>`:'';
+  const pl=g.pl.map(p=>p==='win'?winIcon:macIcon).join('');
+  return `<div class="game-card">
+    <div class="game-card-img">
+      <img src="${g.img}" alt="${g.t}" loading="lazy">
+      <div class="card-wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      ${dt}${rk}
+    </div>
+    <div class="card-info">
+      <div class="card-platforms">${pl}</div>
+      <div class="card-name">${g.t}</div>
+      <div class="card-pricing">${op}<span class="price">${g.p}</span></div>
+    </div>
+  </div>`;
 }
 
-function renderRecentCard(game) {
-  return `
-    <div class="recent-card">
-      <div class="recent-card-img"><img src="${game.img}" alt="${game.title}" loading="lazy"></div>
-      <div class="recent-card-info">
-        <div class="recent-card-title">${game.title}</div>
-        <div class="recent-card-update">${game.update}</div>
-      </div>
-    </div>`;
-}
+document.getElementById('featuredGrid').innerHTML=featured.map((g,i)=>card(g,i,false)).join('');
+document.getElementById('topGrid').innerHTML=topSellers.map((g,i)=>card(g,i,true)).join('');
+document.getElementById('recentRow').innerHTML=recent.map(g=>`<div class="recent-card"><div class="recent-card-img"><img src="${g.img}" alt="${g.t}" loading="lazy"></div><div class="recent-card-info"><div class="recent-card-name">${g.t}</div><div class="recent-card-tag">${g.u}</div></div></div>`).join('');
 
-document.getElementById('featuredGrid').innerHTML = featuredGames.map((g, i) => renderGameCard(g, i, false)).join('');
-document.getElementById('topSellersGrid').innerHTML = topSellerGames.map((g, i) => renderGameCard(g, i, true)).join('');
-document.getElementById('recentScroll').innerHTML = recentGames.map(renderRecentCard).join('');
+// Hero carousel
+let cur=0;const slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dot'),sc=document.getElementById('heroSlides'),prog=document.getElementById('heroProgress');let timer;
+function go(i){cur=i;sc.style.transform=`translateX(-${cur*100}%)`;dots.forEach((d,j)=>d.classList.toggle('active',j===cur));prog.style.transition='none';prog.style.width='0%';requestAnimationFrame(()=>{requestAnimationFrame(()=>{prog.style.transition='width 5s linear';prog.style.width='100%'})});clearInterval(timer);timer=setInterval(()=>go((cur+1)%slides.length),5000)}
+document.getElementById('heroNext').onclick=()=>go((cur+1)%slides.length);
+document.getElementById('heroPrev').onclick=()=>go((cur-1+slides.length)%slides.length);
+dots.forEach(d=>d.onclick=()=>go(+d.dataset.i));
+go(0);
 
-// ─── SIGN IN MODAL ───
-const signinOverlay = document.getElementById('signinOverlay');
-const signinClose = document.getElementById('signinClose');
-const signinError = document.getElementById('signinError');
+// Hamburger
+const hb=document.getElementById('hamburgerBtn'),mm=document.getElementById('mobileMenu');let mo=false;
+hb.onclick=()=>{mo=!mo;hb.classList.toggle('open',mo);mm.classList.toggle('open',mo)};
 
-function openSignin() {
-  signinOverlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  signinError.classList.remove('show');
-}
+// Categories
+document.querySelectorAll('.cat-pill').forEach(p=>{p.onclick=()=>{document.querySelectorAll('.cat-pill').forEach(x=>x.classList.remove('active'));p.classList.add('active')}});
 
-function closeSignin() {
-  signinOverlay.classList.remove('open');
-  document.body.style.overflow = '';
-}
+// Wishlist toggle
+document.addEventListener('click',e=>{const b=e.target.closest('.card-wishlist');if(b){const s=b.querySelector('svg path');if(b.dataset.f==='1'){s.setAttribute('fill','none');s.setAttribute('stroke','#fff');b.dataset.f='0'}else{s.setAttribute('fill','#ff6b6b');s.setAttribute('stroke','#ff6b6b');b.dataset.f='1'}b.style.transform='scale(1.3)';setTimeout(()=>b.style.transform='',200)}});
 
-function showSigninError() {
-  signinError.classList.add('show');
-  signinError.style.animation = 'none';
-  signinError.offsetHeight;
-  signinError.style.animation = 'fadeInUp .3s ease';
-}
+// Sign in
+const overlay=document.getElementById('signinOverlay');
+function openSign(){overlay.classList.add('open');document.body.style.overflow='hidden';document.getElementById('signinError').classList.remove('show')}
+function closeSign(){overlay.classList.remove('open');document.body.style.overflow=''}
+function showError(){document.getElementById('signinError').classList.add('show')}
+document.getElementById('topSignin').onclick=openSign;
+document.getElementById('navSignin').onclick=openSign;
+document.getElementById('mobileSignin').onclick=()=>{openSign();mo=false;hb.classList.remove('open');mm.classList.remove('open')};
+document.getElementById('signinBack').onclick=closeSign;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSign()});
 
-signinClose.addEventListener('click', closeSignin);
-signinOverlay.addEventListener('click', (e) => { if (e.target === signinOverlay) closeSignin(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSignin(); });
-
-document.querySelectorAll('.user-btn, .top-bar-right a').forEach(btn => {
-  if (btn.textContent.trim().includes('Sign In') || btn.textContent.trim().includes('Sign in')) {
-    btn.addEventListener('click', (e) => { e.preventDefault(); openSignin(); });
-  }
-});
-
-// Also wire up mobile nav sign in
-document.querySelectorAll('.mobile-nav a').forEach(a => {
-  if (a.textContent.trim() === 'Sign In') {
-    a.addEventListener('click', (e) => { e.preventDefault(); openSignin(); menuOpen = false; mobileNav.classList.remove('open'); });
-  }
-});
-
-// ─── HERO CAROUSEL ───
-let currentSlide = 0;
-const slides = document.querySelectorAll('.hero-slide');
-const dots = document.querySelectorAll('.hero-dot');
-const slidesContainer = document.getElementById('heroSlides');
-const progress = document.getElementById('heroProgress');
-let autoplayTimer;
-
-function goToSlide(index) {
-  currentSlide = index;
-  slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
-  dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-  resetProgress();
-}
-
-function nextSlide() {
-  goToSlide((currentSlide + 1) % slides.length);
-}
-
-function prevSlide() {
-  goToSlide((currentSlide - 1 + slides.length) % slides.length);
-}
-
-function resetProgress() {
-  progress.style.transition = 'none';
-  progress.style.width = '0%';
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      progress.style.transition = 'width 5s linear';
-      progress.style.width = '100%';
-    });
-  });
-  clearInterval(autoplayTimer);
-  autoplayTimer = setInterval(nextSlide, 5000);
-}
-
-document.getElementById('heroNext').addEventListener('click', nextSlide);
-document.getElementById('heroPrev').addEventListener('click', prevSlide);
-dots.forEach(dot => dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.index))));
-
-resetProgress();
-
-// ─── MOBILE HAMBURGER ───
-const hamburger = document.getElementById('hamburgerBtn');
-const mobileNav = document.getElementById('mobileNav');
-let menuOpen = false;
-
-hamburger.addEventListener('click', () => {
-  menuOpen = !menuOpen;
-  mobileNav.classList.toggle('open', menuOpen);
-  const spans = hamburger.querySelectorAll('span');
-  if (menuOpen) {
-    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-    spans[1].style.opacity = '0';
-    spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-  } else {
-    spans[0].style.transform = '';
-    spans[1].style.opacity = '';
-    spans[2].style.transform = '';
-  }
-});
-
-// ─── CATEGORY PILLS ───
-document.querySelectorAll('.cat-pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-  });
-});
-
-// ─── WISHLIST TOGGLE ───
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.wishlist-btn');
-  if (btn) {
-    const svg = btn.querySelector('svg path');
-    const filled = btn.dataset.filled === 'true';
-    if (filled) {
-      svg.setAttribute('fill', 'none');
-      btn.dataset.filled = 'false';
-    } else {
-      svg.setAttribute('fill', '#ff6b6b');
-      svg.setAttribute('stroke', '#ff6b6b');
-      btn.dataset.filled = 'true';
-    }
-    btn.style.transform = 'scale(1.3)';
-    setTimeout(() => btn.style.transform = '', 200);
-  }
-});
-
-// ─── SCROLL ANIMATIONS ───
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.animationPlayState = 'running';
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.animate-in').forEach(el => {
-  el.style.animationPlayState = 'paused';
-  observer.observe(el);
-});
-
-// ─── COUNTDOWN TIMER ───
-function updateCountdown() {
-  const target = new Date();
-  target.setDate(target.getDate() + 3);
-  target.setHours(target.getHours() + 14);
-  const now = new Date();
-  const diff = target - now;
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  document.querySelectorAll('.countdown').forEach(cd => {
-    const units = cd.querySelectorAll('.countdown-unit');
-    if (units.length >= 3) {
-      units[0].textContent = d + 'd';
-      units[1].textContent = h + 'h';
-      units[2].textContent = m + 'm';
-    }
-  });
-}
-setInterval(updateCountdown, 60000);
-
-// ─── NAV SCROLL EFFECT ───
-let lastScroll = 0;
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('mainNav');
-  const scroll = window.scrollY;
-  if (scroll > 50) {
-    nav.style.background = 'rgba(26,26,26,.95)';
-    nav.style.borderBottomColor = 'rgba(42,42,42,.8)';
-  } else {
-    nav.style.background = 'var(--bg-secondary)';
-    nav.style.borderBottomColor = 'var(--border)';
-  }
-  lastScroll = scroll;
-});
+// Nav scroll effect
+window.addEventListener('scroll',()=>{const n=document.querySelector('.mainnav');n.style.background=window.scrollY>40?'rgba(24,24,28,.95)':'var(--bg-nav)'});
 </script>
 </body>
 </html>
